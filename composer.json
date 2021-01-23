@@ -14,6 +14,9 @@
     "spryker/testify": "*",
     "spryker/twig": "*"
   },
+  "suggest": {
+    "flagbit/schemaorg-email-body": "Helps rendering the additional information in schema.org conform html."
+  },
   "autoload": {
     "psr-4": {
       "OneAndOne\\": "src/OneAndOne/"
