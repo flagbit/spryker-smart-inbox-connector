@@ -21,11 +21,13 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
 
     public function expandOrderMailTransfer(MailTransfer $mailTransfer, OrderTransfer $orderTransfer): MailTransfer
     {
-        $mailTransfer->setContent(
-            $mailTransfer->getContent() .
-            $this->renderOrderInformation($orderTransfer) .
-            $this->renderParcelDeliveryInformation($orderTransfer)
-        );
+        foreach ($mailTransfer->getTemplates() as $template) {
+            $template->setContent(
+                $template->getContent() .
+                $this->renderOrderInformation($orderTransfer) .
+                $this->renderParcelDeliveryInformation($orderTransfer)
+            );
+        }
 
         return $mailTransfer;
     }
