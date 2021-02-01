@@ -10,14 +10,19 @@ use Generated\Shared\Transfer\MailTemplateTransfer;
 use Generated\Shared\Transfer\MailTransfer;
 use Generated\Shared\Transfer\OrderTransfer;
 use OneAndOne\Zed\OneAndOneMailConnector\OneAndOneMailConnectorConfig;
+use OneAndOne\Zed\OneAndOneMailConnector\Persistence\OneAndOneMailConnectorRepositoryInterface;
 
 class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
 {
     private $config;
+    private $repository;
 
-    public function __construct(OneAndOneMailConnectorConfig $config)
-    {
-        $this->config = $config;
+    public function __construct(
+        OneAndOneMailConnectorConfig $config,
+        OneAndOneMailConnectorRepositoryInterface $repository
+    ) {
+        $this->config     = $config;
+        $this->repository = $repository;
     }
 
     public function expandOrderMailTransfer(
@@ -82,7 +87,20 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
      */
     protected function getLastChangesStatus(OrderTransfer $orderTransfer): string
     {
-        // @TODO get last changed status
+        $orderIds = [];
+        foreach ($orderTransfer->getItems() as $item) {
+            $orderIds[] = $item->getIdSalesOrderItem();
+        }
+        $status = $this->repository->findSpySalesOrderItemsById($orderIds);
+
+        $last = null;
+        foreach ($status as $stat) {
+            // @TODO check if it is the last one
+            $last = $stat;
+        }
+
+        // @TODO get the one item from the orderTransfer which is the last and return the status.
+
         return 'status';
     }
 
