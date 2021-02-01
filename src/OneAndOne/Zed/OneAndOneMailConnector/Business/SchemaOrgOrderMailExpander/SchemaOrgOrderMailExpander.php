@@ -80,7 +80,7 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
                 $item->getShipment()->getCarrier()->getName(),
                 'trackingNumber',
                 (string)$orderTransfer->getIdSalesOrder(),
-                $this->getSchemaStatusWithOrderStatus($item->getFkOmsOrderItemState()),
+                $this->getSchemaStatusWithOrderStatus($item->getState()->getName()),
                 $this->getShopName()
             );
             $parcelDeliveryExpanding .= (new ParcelDeliveryRenderer($schemaParcelDelivery))->render();
