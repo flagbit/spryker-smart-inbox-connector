@@ -6,6 +6,7 @@ use EinsUndEins\SchemaOrgMailBody\Model\Order;
 use EinsUndEins\SchemaOrgMailBody\Model\ParcelDelivery;
 use EinsUndEins\SchemaOrgMailBody\Renderer\OrderRenderer;
 use EinsUndEins\SchemaOrgMailBody\Renderer\ParcelDeliveryRenderer;
+use Generated\Shared\Transfer\MailTemplateTransfer;
 use Generated\Shared\Transfer\OneAndOneMailConnectorTransfer;
 use OneAndOne\Zed\OneAndOneMailConnector\Business\SchemaOrgOrderMailExpander\SchemaOrgOrderMailExpanderInterface;
 use OneAndOne\Zed\OneAndOneMailConnector\Business\SchemaOrgOrderMailExpander\SchemaOrgOrderMailExpander;
@@ -63,5 +64,13 @@ class OneAndOneMailConnectorBusinessFactory extends AbstractBusinessFactory
     public function createSchemaOrgOrderMailExpander(): SchemaOrgOrderMailExpanderInterface
     {
         return new SchemaOrgOrderMailExpander($this->getConfig());
+    }
+
+    /**
+     * @return MailTemplateTransfer
+     */
+    public function createMailTemplateTransfer(): MailTemplateTransfer
+    {
+        return new MailTemplateTransfer();
     }
 }
