@@ -13,6 +13,6 @@ class OneAndOneMailConnectorFacade extends AbstractFacade
     {
         return $this->getFactory()
             ->createSchemaOrgOrderMailExpander()
-            ->expandOrderMailTransfer($mailTransfer, $orderTransfer);
+            ->expandOrderMailTransfer($mailTransfer, $orderTransfer, $this->getFactory()->createMailTemplateTransfer());
     }
 }

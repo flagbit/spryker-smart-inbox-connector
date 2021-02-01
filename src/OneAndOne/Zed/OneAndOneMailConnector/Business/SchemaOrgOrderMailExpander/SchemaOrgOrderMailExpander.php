@@ -6,6 +6,7 @@ use EinsUndEins\SchemaOrgMailBody\Model\Order;
 use EinsUndEins\SchemaOrgMailBody\Model\ParcelDelivery;
 use EinsUndEins\SchemaOrgMailBody\Renderer\OrderRenderer;
 use EinsUndEins\SchemaOrgMailBody\Renderer\ParcelDeliveryRenderer;
+use Generated\Shared\Transfer\MailTemplateTransfer;
 use Generated\Shared\Transfer\MailTransfer;
 use Generated\Shared\Transfer\OrderTransfer;
 use OneAndOne\Zed\OneAndOneMailConnector\OneAndOneMailConnectorConfig;
@@ -19,15 +20,18 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
         $this->config = $config;
     }
 
-    public function expandOrderMailTransfer(MailTransfer $mailTransfer, OrderTransfer $orderTransfer): MailTransfer
-    {
-        foreach ($mailTransfer->getTemplates() as $template) {
-            $template->setContent(
-                $template->getContent() .
-                $this->renderOrderInformation($orderTransfer) .
-                $this->renderParcelDeliveryInformation($orderTransfer)
-            );
-        }
+    public function expandOrderMailTransfer(
+        MailTransfer $mailTransfer,
+        OrderTransfer $orderTransfer,
+        MailTemplateTransfer $mailTemplateTransfer
+    ): MailTransfer {
+        $mailTemplateTransfer->setContent(
+            $this->renderOrderInformation($orderTransfer) .
+            $this->renderParcelDeliveryInformation($orderTransfer)
+        );
+        $mailTemplateTransfer->setIsHtml(true);
+        $mailTemplateTransfer->setName('OneAndOneMailExpander');
+        $mailTransfer->addTemplate($mailTemplateTransfer);
 
         return $mailTransfer;
     }
