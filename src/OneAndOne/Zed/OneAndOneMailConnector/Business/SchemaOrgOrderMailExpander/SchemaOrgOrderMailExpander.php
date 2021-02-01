@@ -77,8 +77,7 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
         $parcelDeliveryExpanding = '';
         foreach ($orderTransfer->getItems() as $item) {
             $schemaParcelDelivery    = new ParcelDelivery(
-                $item->getShipment()->getMethod()->getName(),
-                //                $item->getShipment()->getCarrier()->getName(),
+                $item->getShipment()->getCarrier()->getName(),
                 'trackingNumber',
                 (string)$orderTransfer->getIdSalesOrder(),
                 $this->getSchemaStatusWithOrderStatus($item->getFkOmsOrderItemState()),
