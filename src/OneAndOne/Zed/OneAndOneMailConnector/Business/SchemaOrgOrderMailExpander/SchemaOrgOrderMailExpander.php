@@ -6,6 +6,7 @@ use EinsUndEins\SchemaOrgMailBody\Model\Order;
 use EinsUndEins\SchemaOrgMailBody\Model\ParcelDelivery;
 use EinsUndEins\SchemaOrgMailBody\Renderer\OrderRenderer;
 use EinsUndEins\SchemaOrgMailBody\Renderer\ParcelDeliveryRenderer;
+use Exception;
 use Generated\Shared\Transfer\MailTemplateTransfer;
 use Generated\Shared\Transfer\MailTransfer;
 use Generated\Shared\Transfer\OrderTransfer;
@@ -25,6 +26,14 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
         $this->repository = $repository;
     }
 
+    /**
+     * @param MailTransfer         $mailTransfer
+     * @param OrderTransfer        $orderTransfer
+     * @param MailTemplateTransfer $mailTemplateTransfer
+     *
+     * @return MailTransfer
+     * @throws Exception
+     */
     public function expandOrderMailTransfer(
         MailTransfer $mailTransfer,
         OrderTransfer $orderTransfer,
@@ -45,6 +54,7 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
      * @param OrderTransfer $orderTransfer
      *
      * @return string
+     * @throws Exception
      */
     protected function renderOrderInformation(OrderTransfer $orderTransfer): string
     {
@@ -84,6 +94,7 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
      * @param OrderTransfer $orderTransfer
      *
      * @return string
+     * @throws Exception
      */
     protected function getLastChangesStatus(OrderTransfer $orderTransfer): string
     {
@@ -91,17 +102,18 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
         foreach ($orderTransfer->getItems() as $item) {
             $orderIds[] = $item->getIdSalesOrderItem();
         }
-        $status = $this->repository->findSpySalesOrderItemsById($orderIds);
+        $salesOrderItems = $this->repository->findSpySalesOrderItemsById($orderIds);
 
-        $last = null;
-        foreach ($status as $stat) {
-            // @TODO check if it is the last one
-            $last = $stat;
+        $lastChangedSalesOrderItem = null;
+        foreach ($salesOrderItems as $salesOrderItem) {
+            if (null === $lastChangedSalesOrderItem
+                || $salesOrderItems->getLastStateChange()
+                > $lastChangedSalesOrderItem->getLastStateChange()) {
+                $lastChangedSalesOrderItem = $salesOrderItem;
+            }
         }
 
-        // @TODO get the one item from the orderTransfer which is the last and return the status.
-
-        return 'status';
+        return $lastChangedSalesOrderItem->getState()->getName();
     }
 
     /**
