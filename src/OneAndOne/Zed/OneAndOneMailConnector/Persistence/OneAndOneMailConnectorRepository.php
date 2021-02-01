@@ -2,6 +2,7 @@
 
 namespace OneAndOne\Zed\OneAndOneMailConnector\Persistence;
 
+use Propel\Runtime\ActiveQuery\Criteria;
 use Spryker\Zed\Kernel\Persistence\AbstractRepository;
 
 class OneAndOneMailConnectorRepository extends AbstractRepository implements OneAndOneMailConnectorRepositoryInterface
@@ -26,8 +27,8 @@ class OneAndOneMailConnectorRepository extends AbstractRepository implements One
         $orderItemEntities = $this
             ->getFactory()
             ->createSpySalesOrderItemQuery()
-            ->filterByIdSalesOrderItem($idOrderItems)
-            ->findAll();
+            ->filterByIdSalesOrderItem($idOrderItems, Criteria::IN)
+            ->find();
 
         // @TODO overdo the result to something with the date and the idSalesOrderItem
         return $orderItemEntities;
