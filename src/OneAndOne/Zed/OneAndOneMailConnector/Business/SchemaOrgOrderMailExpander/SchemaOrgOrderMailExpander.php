@@ -6,11 +6,11 @@ use Generated\Shared\Transfer\MailTemplateTransfer;
 use Generated\Shared\Transfer\MailTransfer;
 use Generated\Shared\Transfer\OrderTransfer;
 use Generated\Shared\Transfer\ParcelDeliveryTransfer;
-use Generated\Shared\Transfer\SchemaOrgData;
+use Generated\Shared\Transfer\SchemaOrgTransfer;
 use OneAndOne\Zed\OneAndOneMailConnector\OneAndOneMailConnectorConfig;
 use OneAndOne\Zed\OneAndOneMailConnector\Persistence\OneAndOneMailConnectorRepositoryInterface;
 use Propel\Runtime\Collection\ObjectCollection;
-use Spryker\Zed\Sales\Persistence\Propel\AbstractSpySalesOrderItem;
+use Spryker\Zed\Sales\Persistence\Base\SpySalesOrderItem;
 
 class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
 {
@@ -29,7 +29,7 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
      * @param MailTransfer         $mailTransfer
      * @param OrderTransfer        $orderTransfer
      * @param MailTemplateTransfer $mailTemplateTransfer
-     * @param SchemaOrgData        $schemaOrgData
+     * @param SchemaOrgTransfer    $schemaOrgTransfer
      *
      * @return MailTransfer
      */
@@ -37,13 +37,13 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
         MailTransfer $mailTransfer,
         OrderTransfer $orderTransfer,
         MailTemplateTransfer $mailTemplateTransfer,
-        SchemaOrgData $schemaOrgData
+        SchemaOrgTransfer $schemaOrgTransfer
     ): MailTransfer {
         $this->fillMailTemplateInfos($mailTemplateTransfer);
         $mailTransfer->addTemplate($mailTemplateTransfer);
 
-        $this->fillSchemaOrgData($orderTransfer, $schemaOrgData);
-        $mailTransfer->setSchemaOrgData($schemaOrgData);
+        $this->fillSchemaOrgTransfer($orderTransfer, $schemaOrgTransfer);
+        $mailTransfer->setSchemaOrg($schemaOrgTransfer);
 
         return $mailTransfer;
     }
@@ -55,7 +55,7 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
      */
     protected function getLastChangedStatus(OrderTransfer $orderTransfer): string
     {
-        $salesOrderItems = $this->getSalesOrderItems($orderTransfer);
+        $salesOrderItems           = $this->getSalesOrderItems($orderTransfer);
         $lastChangedSalesOrderItem = $this->findLastChangesSalesOrderItem($salesOrderItems);
 
         return $lastChangedSalesOrderItem->getState()->getName();
@@ -89,19 +89,19 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
     }
 
     /**
-     * @param OrderTransfer $orderTransfer
-     * @param SchemaOrgData $schemaOrgData
+     * @param OrderTransfer     $orderTransfer
+     * @param SchemaOrgTransfer $schemaOrgTransfer
      */
-    protected function fillSchemaOrgData(OrderTransfer $orderTransfer, SchemaOrgData $schemaOrgData): void
+    protected function fillSchemaOrgTransfer(OrderTransfer $orderTransfer, SchemaOrgTransfer $schemaOrgTransfer): void
     {
         foreach ($orderTransfer->getItems() as $item) {
             $parcelDeliveryTransfer = new ParcelDeliveryTransfer();
             $this->fillParcelDelivery($parcelDeliveryTransfer, $item);
-            $schemaOrgData->addParcelDelivery($parcelDeliveryTransfer);
+            $schemaOrgTransfer->addParcelDelivery($parcelDeliveryTransfer);
         }
 
-        $schemaOrgData->setShopName($this->getShopName());
-        $schemaOrgData->setStatus($this->getSchemaStatusWithOrderStatus($this->getLastChangedStatus($orderTransfer)));
+        $schemaOrgTransfer->setShopName($this->getShopName());
+        $schemaOrgTransfer->setStatus($this->getSchemaStatusWithOrderStatus($this->getLastChangedStatus($orderTransfer)));
     }
 
     /**

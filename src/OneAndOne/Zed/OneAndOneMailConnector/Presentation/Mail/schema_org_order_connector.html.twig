@@ -1,11 +1,11 @@
 <div itemscope itemtype="http://schema.org/Order">
     <div itemprop="merchant" itemscope itemtype="http://schema.org/Organization">
-        <meta itemprop="name" content="{{ mail.schemaOrgData.shopName }}"/>
+        <meta itemprop="name" content="{{ mail.schemaOrg.shopName }}"/>
     </div>
     <meta itemprop="orderNumber" content="{{ mail.order.idSalesOrder }}"/>
-    <link itemprop="orderStatus" href="http://schema.org/{{ mail.schemaOrgData.status }}"/>
+    <link itemprop="orderStatus" href="http://schema.org/{{ mail.schemaOrg.status }}"/>
 </div>
-{% for parcelDelivery in mail.schemaOrgData.parcelDeliveries %}
+{% for parcelDelivery in mail.schemaOrg.parcelDeliveries %}
 <div itemscope itemtype="http://schema.org/ParcelDelivery">
     <div itemprop="carrier" itemscope itemtype="http://schema.org/Organization">
         <meta itemprop="name" content="{{ parcelDelivery.deliveryName }}"/>
@@ -13,7 +13,7 @@
     <meta itemprop="trackingNumber" content="{{ parcelDelivery.trackingNumber }}"/>
     <div itemprop="partOfOrder" itemscope itemtype="http://schema.org/Order">
         <div itemprop="merchant" itemscope itemtype="http://schema.org/Organization">
-            <meta itemprop="name" content="{{ mail.schemaOrgData.shopName }}"/>
+            <meta itemprop="name" content="{{ mail.schemaOrg.shopName }}"/>
         </div>
     </div>
     <meta itemprop="orderNumber" content="{{ mail.order.idSalesOrder }}"/>
