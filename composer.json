@@ -13,14 +13,13 @@
     "spryker/sales": "^11.20"
   },
   "require-dev": {
+    "spryker-feature/development-tools": "202009.0",
+    "spryker/architecture-sniffer": "^0.5.1",
     "spryker/code-sniffer": "*",
+    "spryker/console": "^4.9",
     "spryker/propel": "*",
     "spryker/testify": "*",
     "spryker/twig": "*"
-  },
-  "suggest": {
-    "flagbit/schemaorg-email-body": "Helps rendering the additional information in schema.org conform html.",
-    "propel/propel": "Adds a const value which is used in the Repository."
   },
   "autoload": {
     "psr-4": {
