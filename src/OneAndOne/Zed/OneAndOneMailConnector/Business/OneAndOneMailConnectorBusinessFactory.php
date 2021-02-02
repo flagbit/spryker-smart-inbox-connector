@@ -8,6 +8,7 @@ use EinsUndEins\SchemaOrgMailBody\Renderer\OrderRenderer;
 use EinsUndEins\SchemaOrgMailBody\Renderer\ParcelDeliveryRenderer;
 use Generated\Shared\Transfer\MailTemplateTransfer;
 use Generated\Shared\Transfer\OneAndOneMailConnectorTransfer;
+use Generated\Shared\Transfer\SchemaOrgData;
 use OneAndOne\Zed\OneAndOneMailConnector\Business\SchemaOrgOrderMailExpander\SchemaOrgOrderMailExpanderInterface;
 use OneAndOne\Zed\OneAndOneMailConnector\Business\SchemaOrgOrderMailExpander\SchemaOrgOrderMailExpander;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
@@ -72,5 +73,13 @@ class OneAndOneMailConnectorBusinessFactory extends AbstractBusinessFactory
     public function createMailTemplateTransfer(): MailTemplateTransfer
     {
         return new MailTemplateTransfer();
+    }
+
+    /**
+     * @return SchemaOrgData
+     */
+    public function createSchemaOrgData(): SchemaOrgData
+    {
+        return new SchemaOrgData();
     }
 }
