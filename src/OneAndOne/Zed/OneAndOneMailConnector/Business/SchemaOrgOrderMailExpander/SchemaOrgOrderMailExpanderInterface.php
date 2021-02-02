@@ -5,7 +5,7 @@ namespace OneAndOne\Zed\OneAndOneMailConnector\Business\SchemaOrgOrderMailExpand
 use Generated\Shared\Transfer\MailTemplateTransfer;
 use Generated\Shared\Transfer\MailTransfer;
 use Generated\Shared\Transfer\OrderTransfer;
-use Generated\Shared\Transfer\SchemaOrgData;
+use Generated\Shared\Transfer\SchemaOrgTransfer;
 
 interface SchemaOrgOrderMailExpanderInterface
 {
@@ -13,6 +13,6 @@ interface SchemaOrgOrderMailExpanderInterface
         MailTransfer $mailTransfer,
         OrderTransfer $orderTransfer,
         MailTemplateTransfer $mailTemplateTransfer,
-        SchemaOrgData $schemaOrgData
+        SchemaOrgTransfer $schemaOrgTransfer
     ): MailTransfer;
 }
