@@ -9,7 +9,7 @@
     "spryker/mail": "^4.0.0",
     "spryker/oms": "^11.14",
     "spryker/oms-extension": "^1.3",
-    "spryker/sales": "^11.20"
+    "spryker/sales": ">=0.20.0 <=11.20.0"
   },
   "require-dev": {
     "spryker-feature/development-tools": "202009.0",
