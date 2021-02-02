@@ -2,16 +2,15 @@
 
 namespace OneAndOne\Zed\OneAndOneMailConnector\Business\SchemaOrgOrderMailExpander;
 
-use EinsUndEins\SchemaOrgMailBody\Model\Order;
-use EinsUndEins\SchemaOrgMailBody\Model\ParcelDelivery;
-use EinsUndEins\SchemaOrgMailBody\Renderer\OrderRenderer;
-use EinsUndEins\SchemaOrgMailBody\Renderer\ParcelDeliveryRenderer;
-use Exception;
 use Generated\Shared\Transfer\MailTemplateTransfer;
 use Generated\Shared\Transfer\MailTransfer;
 use Generated\Shared\Transfer\OrderTransfer;
+use Generated\Shared\Transfer\ParcelDeliveryTransfer;
+use Generated\Shared\Transfer\SchemaOrgData;
 use OneAndOne\Zed\OneAndOneMailConnector\OneAndOneMailConnectorConfig;
 use OneAndOne\Zed\OneAndOneMailConnector\Persistence\OneAndOneMailConnectorRepositoryInterface;
+use Propel\Runtime\Collection\ObjectCollection;
+use Spryker\Zed\Sales\Persistence\Propel\AbstractSpySalesOrderItem;
 
 class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
 {
@@ -30,22 +29,21 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
      * @param MailTransfer         $mailTransfer
      * @param OrderTransfer        $orderTransfer
      * @param MailTemplateTransfer $mailTemplateTransfer
+     * @param SchemaOrgData        $schemaOrgData
      *
      * @return MailTransfer
-     * @throws Exception
      */
     public function expandOrderMailTransfer(
         MailTransfer $mailTransfer,
         OrderTransfer $orderTransfer,
-        MailTemplateTransfer $mailTemplateTransfer
+        MailTemplateTransfer $mailTemplateTransfer,
+        SchemaOrgData $schemaOrgData
     ): MailTransfer {
-        $mailTemplateTransfer->setContent(
-            $this->renderOrderInformation($orderTransfer) .
-            $this->renderParcelDeliveryInformation($orderTransfer)
-        );
-        $mailTemplateTransfer->setIsHtml(true);
-        $mailTemplateTransfer->setName('OneAndOneMailExpander');
+        $this->fillMailTemplateInfos($mailTemplateTransfer);
         $mailTransfer->addTemplate($mailTemplateTransfer);
+
+        $this->fillSchemaOrgData($orderTransfer, $schemaOrgData);
+        $mailTransfer->setSchemaOrgData($schemaOrgData);
 
         return $mailTransfer;
     }
@@ -54,63 +52,11 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
      * @param OrderTransfer $orderTransfer
      *
      * @return string
-     * @throws Exception
      */
-    protected function renderOrderInformation(OrderTransfer $orderTransfer): string
+    protected function getLastChangedStatus(OrderTransfer $orderTransfer): string
     {
-        return (new OrderRenderer(
-            new Order(
-                (string)$orderTransfer->getIdSalesOrder(),
-                $this->getSchemaStatusWithOrderStatus($this->getLastChangesStatus($orderTransfer)),
-                $this->getShopName()
-            )
-        ))->render();
-    }
-
-    /**
-     * @param OrderTransfer $orderTransfer
-     *
-     * @return string
-     */
-    protected function renderParcelDeliveryInformation(OrderTransfer $orderTransfer): string
-    {
-        $parcelDeliveryExpanding = '';
-        foreach ($orderTransfer->getItems() as $item) {
-            $schemaParcelDelivery    = new ParcelDelivery(
-                $item->getShipment()->getCarrier()->getName(),
-                'trackingNumber',
-                (string)$orderTransfer->getIdSalesOrder(),
-                $this->getSchemaStatusWithOrderStatus($item->getState()->getName()),
-                $this->getShopName()
-            );
-            $parcelDeliveryExpanding .= (new ParcelDeliveryRenderer($schemaParcelDelivery))->render();
-        }
-
-        return $parcelDeliveryExpanding;
-    }
-
-    /**
-     * @param OrderTransfer $orderTransfer
-     *
-     * @return string
-     * @throws Exception
-     */
-    protected function getLastChangesStatus(OrderTransfer $orderTransfer): string
-    {
-        $orderIds = [];
-        foreach ($orderTransfer->getItems() as $item) {
-            $orderIds[] = $item->getIdSalesOrderItem();
-        }
-        $salesOrderItems = $this->repository->findSpySalesOrderItemsById($orderIds);
-
-        $lastChangedSalesOrderItem = null;
-        foreach ($salesOrderItems as $salesOrderItem) {
-            if (null === $lastChangedSalesOrderItem
-                || $salesOrderItems->getLastStateChange()
-                > $lastChangedSalesOrderItem->getLastStateChange()) {
-                $lastChangedSalesOrderItem = $salesOrderItem;
-            }
-        }
+        $salesOrderItems = $this->getSalesOrderItems($orderTransfer);
+        $lastChangedSalesOrderItem = $this->findLastChangesSalesOrderItem($salesOrderItems);
 
         return $lastChangedSalesOrderItem->getState()->getName();
     }
@@ -131,5 +77,76 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
     protected function getSchemaStatusWithOrderStatus(string $status): string
     {
         return $this->config->getStatusMatrix()[$status];
+    }
+
+    /**
+     * @param MailTemplateTransfer $mailTemplateTransfer
+     */
+    protected function fillMailTemplateInfos(MailTemplateTransfer $mailTemplateTransfer): void
+    {
+        $mailTemplateTransfer->setIsHtml(true);
+        $mailTemplateTransfer->setName('oneAndOneMailConnector/mail/schema_org_order_connector.html.twig');
+    }
+
+    /**
+     * @param OrderTransfer $orderTransfer
+     * @param SchemaOrgData $schemaOrgData
+     */
+    protected function fillSchemaOrgData(OrderTransfer $orderTransfer, SchemaOrgData $schemaOrgData): void
+    {
+        foreach ($orderTransfer->getItems() as $item) {
+            $parcelDeliveryTransfer = new ParcelDeliveryTransfer();
+            $this->fillParcelDelivery($parcelDeliveryTransfer, $item);
+            $schemaOrgData->addParcelDelivery($parcelDeliveryTransfer);
+        }
+
+        $schemaOrgData->setShopName($this->getShopName());
+        $schemaOrgData->setStatus($this->getSchemaStatusWithOrderStatus($this->getLastChangedStatus($orderTransfer)));
+    }
+
+    /**
+     * @param ParcelDeliveryTransfer $parcelDeliveryTransfer
+     * @param                        $item
+     */
+    protected function fillParcelDelivery(ParcelDeliveryTransfer $parcelDeliveryTransfer, $item): void
+    {
+        $parcelDeliveryTransfer->setDeliveryName($item->getShipment()->getCarrier()->getName());
+        $parcelDeliveryTransfer->setTrackingNumber('trackingNumber');   // @TODO check for real trackingNumber
+        $parcelDeliveryTransfer->setStatus($this->getSchemaStatusWithOrderStatus($item->getState()->getName()));
+    }
+
+    /**
+     * @param OrderTransfer $orderTransfer
+     *
+     * @return ObjectCollection
+     */
+    protected function getSalesOrderItems(OrderTransfer $orderTransfer)
+    {
+        $orderIds = [];
+        foreach ($orderTransfer->getItems() as $item) {
+            $orderIds[] = $item->getIdSalesOrderItem();
+        }
+
+        return $this->repository->findSpySalesOrderItemsById($orderIds);
+    }
+
+    /**
+     * @param $salesOrderItems
+     *
+     * @return null|AbstractSpySalesOrderItem
+     */
+    protected function findLastChangesSalesOrderItem($salesOrderItems): ?AbstractSpySalesOrderItem
+    {
+        $lastChangedSalesOrderItem = null;
+        /** @var AbstractSpySalesOrderItem $salesOrderItem */
+        foreach ($salesOrderItems as $salesOrderItem) {
+            if (null === $lastChangedSalesOrderItem
+                || $salesOrderItems->getLastStateChange()
+                > $lastChangedSalesOrderItem->getLastStateChange()) {
+                $lastChangedSalesOrderItem = $salesOrderItem;
+            }
+        }
+
+        return $lastChangedSalesOrderItem;
     }
 }
