@@ -133,12 +133,12 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
     /**
      * @param $salesOrderItems
      *
-     * @return null|AbstractSpySalesOrderItem
+     * @return null|SpySalesOrderItem
      */
-    protected function findLastChangesSalesOrderItem($salesOrderItems): ?AbstractSpySalesOrderItem
+    protected function findLastChangesSalesOrderItem($salesOrderItems): ?SpySalesOrderItem
     {
         $lastChangedSalesOrderItem = null;
-        /** @var AbstractSpySalesOrderItem $salesOrderItem */
+        /** @var SpySalesOrderItem $salesOrderItem */
         foreach ($salesOrderItems as $salesOrderItem) {
             if (null === $lastChangedSalesOrderItem
                 || $salesOrderItems->getLastStateChange()
