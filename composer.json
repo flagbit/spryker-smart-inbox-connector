@@ -5,7 +5,6 @@
   "license": "proprietary",
   "require": {
     "php": ">=7.2",
-    "flagbit/schemaorg-email-body": "^0.2.0",
     "propel/propel": "^2.0@alpha",
     "spryker/mail": "^4.0.0",
     "spryker/oms": "^11.14",
