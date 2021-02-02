@@ -1,0 +1,22 @@
+<div itemscope itemtype="http://schema.org/Order">
+    <div itemprop="merchant" itemscope itemtype="http://schema.org/Organization">
+        <meta itemprop="name" content="{{ mail.schemaOrgData.shopName }}"/>
+    </div>
+    <meta itemprop="orderNumber" content="{{ mail.order.idSalesOrder }}"/>
+    <link itemprop="orderStatus" href="http://schema.org/{{ mail.schemaOrgData.status }}"/>
+</div>
+{% for parcelDelivery in mail.schemaOrgData.parcelDeliveries %}
+<div itemscope itemtype="http://schema.org/ParcelDelivery">
+    <div itemprop="carrier" itemscope itemtype="http://schema.org/Organization">
+        <meta itemprop="name" content="{{ parcelDelivery.deliveryName }}"/>
+    </div>
+    <meta itemprop="trackingNumber" content="{{ parcelDelivery.trackingNumber }}"/>
+    <div itemprop="partOfOrder" itemscope itemtype="http://schema.org/Order">
+        <div itemprop="merchant" itemscope itemtype="http://schema.org/Organization">
+            <meta itemprop="name" content="{{ mail.schemaOrgData.shopName }}"/>
+        </div>
+    </div>
+    <meta itemprop="orderNumber" content="{{ mail.order.idSalesOrder }}"/>
+    <link itemprop="orderStatus" href="http://schema.org/{{ parcelDelivery.status }}"/>
+</div>
+{% endfor %}
