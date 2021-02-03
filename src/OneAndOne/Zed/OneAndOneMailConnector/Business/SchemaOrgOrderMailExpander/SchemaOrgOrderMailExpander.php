@@ -111,7 +111,6 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
     protected function fillParcelDelivery(ParcelDeliveryTransfer $parcelDeliveryTransfer, $item): void
     {
         $parcelDeliveryTransfer->setDeliveryName($item->getShipment()->getCarrier()->getName());
-        $parcelDeliveryTransfer->setTrackingNumber('trackingNumber');   // @TODO check for real trackingNumber
         $parcelDeliveryTransfer->setStatus($this->getSchemaStatusWithOrderStatus($item->getState()->getName()));
     }
 
