@@ -28,9 +28,9 @@ class OneAndOneMailConnectorBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return SchemaOrgData
+     * @return SchemaOrgTransfer
      */
-    public function createSchemaOrgTransfer(): SchemaOrgData
+    public function createSchemaOrgTransfer(): SchemaOrgTransfer
     {
         return new SchemaOrgTransfer();
     }
