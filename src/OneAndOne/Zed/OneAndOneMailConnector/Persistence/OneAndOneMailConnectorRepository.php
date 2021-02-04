@@ -22,15 +22,17 @@ class OneAndOneMailConnectorRepository extends AbstractRepository implements One
         return null; // @TODO return value
     }
 
+    /**
+     * @param array $idOrderItems
+     *
+     * @return mixed
+     */
     public function findSpySalesOrderItemsById(array $idOrderItems)
     {
-        $orderItemEntities = $this
+        return $this
             ->getFactory()
             ->createSpySalesOrderItemQuery()
             ->filterByIdSalesOrderItem($idOrderItems, Criteria::IN)
             ->find();
-
-        // @TODO overdo the result to something with the date and the idSalesOrderItem
-        return $orderItemEntities;
     }
 }
