@@ -5,6 +5,9 @@ namespace OneAndOne\Zed\OneAndOneMailConnector\Persistence;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Spryker\Zed\Kernel\Persistence\AbstractRepository;
 
+/**
+ * @method \OneAndOne\Zed\OneAndOneMailConnector\Persistence\OneAndOneMailConnectorPersistenceFactory getFactory()
+ */
 class OneAndOneMailConnectorRepository extends AbstractRepository implements OneAndOneMailConnectorRepositoryInterface
 {
     /**

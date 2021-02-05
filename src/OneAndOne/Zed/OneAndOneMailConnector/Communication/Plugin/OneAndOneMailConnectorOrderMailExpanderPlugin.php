@@ -7,15 +7,19 @@ use Generated\Shared\Transfer\OrderTransfer;
 use Spryker\Zed\Kernel\Communication\AbstractPlugin;
 use Spryker\Zed\OmsExtension\Dependency\Plugin\OmsOrderMailExpanderPluginInterface;
 
+/**
+ * @method \OneAndOne\Zed\OneAndOneMailConnector\OneAndOneMailConnectorConfig getConfig()
+ * @method \OneAndOne\Zed\OneAndOneMailConnector\Business\OneAndOneMailConnectorFacadeInterface getFacade()
+ */
 class OneAndOneMailConnectorOrderMailExpanderPlugin extends AbstractPlugin implements OmsOrderMailExpanderPluginInterface
 {
     /**
      * @method \Spryker\Zed\OneAndOneMailConnector\Business\OneAndOneMailConnectorFacade getFacade()
      *
-     * @param MailTransfer  $mailTransfer
-     * @param OrderTransfer $orderTransfer
+     * @param \Generated\Shared\Transfer\MailTransfer $mailTransfer
+     * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
      *
-     * @return MailTransfer
+     * @return \Generated\Shared\Transfer\MailTransfer
      */
     public function expand(MailTransfer $mailTransfer, OrderTransfer $orderTransfer): MailTransfer
     {

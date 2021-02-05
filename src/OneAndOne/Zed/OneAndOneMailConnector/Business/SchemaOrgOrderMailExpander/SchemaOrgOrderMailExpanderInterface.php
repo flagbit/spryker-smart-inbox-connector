@@ -9,6 +9,14 @@ use Generated\Shared\Transfer\SchemaOrgTransfer;
 
 interface SchemaOrgOrderMailExpanderInterface
 {
+    /**
+     * @param \Generated\Shared\Transfer\MailTransfer $mailTransfer
+     * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
+     * @param \Generated\Shared\Transfer\MailTemplateTransfer $mailTemplateTransfer
+     * @param \Generated\Shared\Transfer\SchemaOrgTransfer $schemaOrgTransfer
+     *
+     * @return \Generated\Shared\Transfer\MailTransfer
+     */
     public function expandOrderMailTransfer(
         MailTransfer $mailTransfer,
         OrderTransfer $orderTransfer,
