@@ -12,7 +12,7 @@ class OneAndOneMailConnectorConfig extends AbstractBundleConfig
      */
     public function getShopName(): string
     {
-        return $this->get(OneAndOneMailConnectorConstants::SHOP_NAME);
+        return $this->get(OneAndOneMailConnectorConstants::ONE_AND_ONE_MAIL_CONNECTOR_SHOP_NAME);
     }
 
     /**
@@ -20,6 +20,6 @@ class OneAndOneMailConnectorConfig extends AbstractBundleConfig
      */
     public function getStatusMatrix(): array
     {
-        return $this->get(OneAndOneMailConnectorConstants::MATRIX_KEY);
+        return $this->get(OneAndOneMailConnectorConstants::ONE_AND_ONE_MAIL_CONNECTOR_MATRIX_KEY);
     }
 }

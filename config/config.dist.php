@@ -1,9 +1,12 @@
 <?php
+/**
+ * Copy over the following configs to your config
+ */
 
 use OneAndOne\Shared\OneAndOneMailConnector\OneAndOneMailConnectorConstants;
 use Spryker\Shared\Kernel\KernelConstants;
 
-$config[OneAndOneMailConnectorConstants::MATRIX_KEY] = [
+$config[OneAndOneMailConnectorConstants::ONE_AND_ONE_MAIL_CONNECTOR_MATRIX_KEY] = [
     'new' => 'OrderProcessing',
     'payment pending' => 'OrderProcessing',
     'invalid' => 'OrderCancelled',
@@ -27,6 +30,9 @@ $config[OneAndOneMailConnectorConstants::MATRIX_KEY] = [
     'refunded' => 'OrderCancelled',
 ];
 
-$config[OneAndOneMailConnectorConstants::SHOP_NAME] = 'shop.com';
+$config[OneAndOneMailConnectorConstants::ONE_AND_ONE_MAIL_CONNECTOR_SHOP_NAME] = 'shop.com';
 
-$config[KernelConstants::PROJECT_NAMESPACES] = array_merge($config[KernelConstants::PROJECT_NAMESPACES], ['OneAndOne']);
+$config[KernelConstants::PROJECT_NAMESPACES] = array_merge(
+    $config[KernelConstants::PROJECT_NAMESPACES],
+    ['OneAndOne']
+);

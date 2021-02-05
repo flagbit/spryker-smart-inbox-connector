@@ -35,7 +35,6 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "scripts": {
-    "arch-check": "phpmd src text vendor/spryker/architecture-sniffer/src/ruleset.xml --minimumpriority=2",
     "cs-check": "phpcs -p -s --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml src/ tests/",
     "cs-fix": "phpcbf -p --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml src/ tests/"
   },
