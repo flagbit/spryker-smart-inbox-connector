@@ -7,6 +7,7 @@ use Generated\Shared\Transfer\MailTransfer;
 use Generated\Shared\Transfer\OrderTransfer;
 use Generated\Shared\Transfer\ParcelDeliveryTransfer;
 use Generated\Shared\Transfer\SchemaOrgTransfer;
+use OneAndOne\Zed\OneAndOneMailConnector\Business\ParcelDelivery\ParcelDeliveryFactory;
 use OneAndOne\Zed\OneAndOneMailConnector\OneAndOneMailConnectorConfig;
 use OneAndOne\Zed\OneAndOneMailConnector\Persistence\OneAndOneMailConnectorRepositoryInterface;
 use Propel\Runtime\Collection\ObjectCollection;
@@ -16,13 +17,16 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
 {
     private $config;
     private $repository;
+    private $parcelDeliveryFactory;
 
     public function __construct(
         OneAndOneMailConnectorConfig $config,
-        OneAndOneMailConnectorRepositoryInterface $repository
+        OneAndOneMailConnectorRepositoryInterface $repository,
+        ParcelDeliveryFactory $parcelDeliveryFactory
     ) {
-        $this->config     = $config;
-        $this->repository = $repository;
+        $this->config                = $config;
+        $this->repository            = $repository;
+        $this->parcelDeliveryFactory = $parcelDeliveryFactory;
     }
 
     /**
@@ -95,7 +99,7 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
     protected function fillSchemaOrgTransfer(OrderTransfer $orderTransfer, SchemaOrgTransfer $schemaOrgTransfer): void
     {
         foreach ($orderTransfer->getItems() as $item) {
-            $parcelDeliveryTransfer = new ParcelDeliveryTransfer();
+            $parcelDeliveryTransfer = $this->parcelDeliveryFactory->create();
             $this->fillParcelDelivery($parcelDeliveryTransfer, $item);
             $schemaOrgTransfer->addParcelDelivery($parcelDeliveryTransfer);
         }

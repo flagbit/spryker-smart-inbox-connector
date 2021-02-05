@@ -17,7 +17,7 @@ class OneAndOneMailConnectorBusinessFactory extends AbstractBusinessFactory
      */
     public function createSchemaOrgOrderMailExpander(): SchemaOrgOrderMailExpanderInterface
     {
-        return new SchemaOrgOrderMailExpander($this->getConfig(), $this->getRepository());
+        return new SchemaOrgOrderMailExpander($this->getConfig(), $this->getRepository(), $this->createParcelDeliveryFactory());
     }
 
     /**
