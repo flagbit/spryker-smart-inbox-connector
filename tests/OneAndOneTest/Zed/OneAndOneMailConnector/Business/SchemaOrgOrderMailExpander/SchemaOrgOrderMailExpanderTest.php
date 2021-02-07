@@ -6,6 +6,7 @@ use Codeception\Test\Unit;
 use Generated\Shared\Transfer\MailTemplateTransfer;
 use Generated\Shared\Transfer\MailTransfer;
 use Generated\Shared\Transfer\OrderTransfer;
+use Generated\Shared\Transfer\ParcelDeliveryTransfer;
 use Generated\Shared\Transfer\SchemaOrgTransfer;
 use OneAndOne\Zed\OneAndOneMailConnector\Business\ParcelDelivery\ParcelDeliveryFactory;
 use OneAndOne\Zed\OneAndOneMailConnector\Business\SchemaOrgOrderMailExpander\SchemaOrgOrderMailExpander;
@@ -301,11 +302,11 @@ class SchemaOrgOrderMailExpanderTest extends Unit
     /**
      * @param string $carrierName
      *
-     * @return MockObject
+     * @return MockObject|ParcelDeliveryTransfer
      */
-    protected function createParcelDeliveryMock(string $carrierName): MockObject
+    protected function createParcelDeliveryMock(string $carrierName)
     {
-        $parcelDelivery = $this->getMockBuilder('Generated\Shared\Transfer\ParcelDelivery')
+        $parcelDelivery = $this->getMockBuilder('Generated\Shared\Transfer\ParcelDeliveryTransfer')
             // @TODO use deprecated setMethods because addMethods doesn't support unknown types. Change when it does.
             ->setMethods(
                 [
@@ -357,11 +358,11 @@ class SchemaOrgOrderMailExpanderTest extends Unit
     }
 
     /**
-     * @param MockObject $parcelDelivery
+     * @param MockObject|ParcelDeliveryTransfer $parcelDelivery
      *
      * @return ParcelDeliveryFactory|MockObject
      */
-    protected function createParcelDeliveryFactoryMock(MockObject $parcelDelivery)
+    protected function createParcelDeliveryFactoryMock($parcelDelivery)
     {
         $parcelDeliveryFactory = $this->createMock(ParcelDeliveryFactory::class);
         $parcelDeliveryFactory->method('create')
