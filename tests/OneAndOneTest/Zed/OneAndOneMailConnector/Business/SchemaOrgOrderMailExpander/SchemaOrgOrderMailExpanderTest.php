@@ -311,7 +311,7 @@ class SchemaOrgOrderMailExpanderTest extends Unit
             ->setMethods(
                 [
                     'setDeliveryName',
-                    'setStatus'
+                    'setStatus',
                 ]
             )
             ->getMock();
@@ -319,11 +319,9 @@ class SchemaOrgOrderMailExpanderTest extends Unit
             ->with($carrierName);
         $parcelDelivery->method('setStatus')
             ->withConsecutive(
-                [
-                    'OrderProcessing',
-                    'OrderCancelled',
-                    'OrderInTransit',
-                ]
+                [ 'OrderProcessing' ],
+                [ 'OrderCancelled' ],
+                [ 'OrderInTransit' ]
             );
 
         return $parcelDelivery;
