@@ -274,7 +274,7 @@ class SchemaOrgOrderMailExpanderTest extends Unit
                 )
                 ->getMock();
             $spySalesOrderItem->method('getState')
-                ->willReturn($this->createItemStateTransferMock($values['schemaOrgState']));
+                ->willReturn($this->createItemStateTransferMock($values['state']));
             $spySalesOrderItem->method('getLastStateChange')
                 ->willReturn($values['lastChange']);
             $spySalesOrderItems[] = $spySalesOrderItem;
@@ -293,7 +293,7 @@ class SchemaOrgOrderMailExpanderTest extends Unit
     {
         $repository = $this->createMock(OneAndOneMailConnectorRepository::class);
         $repository->method('findSpySalesOrderItemsById')
-            ->with($itemValues)
+            ->with(array_keys($itemValues))
             ->willReturn($spySalesOrderItems);
 
         return $repository;
