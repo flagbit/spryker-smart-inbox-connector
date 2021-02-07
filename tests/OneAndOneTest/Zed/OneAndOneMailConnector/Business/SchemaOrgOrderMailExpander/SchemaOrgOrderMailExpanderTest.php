@@ -97,8 +97,8 @@ class SchemaOrgOrderMailExpanderTest extends Unit
     protected function createMailTemplateTransferMock()
     {
         $mailTemplateTransfer = $this->getMockBuilder('Generated\Shared\Transfer\MailTemplateTransfer')
-            ->disableOriginalConstructor()
-            ->addMethods(
+            // @TODO use deprecated setMethods because addMethods doesn't support unknown types. Change when it does.
+            ->setMethods(
                 [
                     'setIsHtml',
                     'setName',
@@ -124,8 +124,8 @@ class SchemaOrgOrderMailExpanderTest extends Unit
         SchemaOrgTransfer $schemaOrgTransfer
     ) {
         $mailTransfer = $this->getMockBuilder('Generated\Shared\Transfer\MailTransfer')
-            ->disableOriginalConstructor()
-            ->addMethods(
+            // @TODO use deprecated setMethods because addMethods doesn't support unknown types. Change when it does.
+            ->setMethods(
                 [
                     'addTemplate',
                     'setSchemaOrg',
@@ -148,8 +148,8 @@ class SchemaOrgOrderMailExpanderTest extends Unit
     protected function createOrderTransferMock(array $items)
     {
         $orderTransfer = $this->getMockBuilder('Generated\Shared\Transfer\OrderTransfer')
-            ->disableOriginalConstructor()
-            ->addMethods([ 'getItems' ])
+            // @TODO use deprecated setMethods because addMethods doesn't support unknown types. Change when it does.
+            ->setMethods([ 'getItems' ])
             ->getMock();
         $orderTransfer->method('getItems')
             ->willReturn($items);
@@ -182,8 +182,8 @@ class SchemaOrgOrderMailExpanderTest extends Unit
     protected function createShipmentTransferMock(MockObject $carrierTransfer)
     {
         $shipmentTransfer = $this->getMockBuilder('Generated\Shared\Transfer\ShipmentTransfer')
-            ->disableOriginalConstructor()
-            ->addMethods([ 'getCarrier' ])
+            // @TODO use deprecated setMethods because addMethods doesn't support unknown types. Change when it does.
+            ->setMethods([ 'getCarrier' ])
             ->getMock();
         $shipmentTransfer->method('getCarrier')
             ->willReturn($carrierTransfer);
@@ -199,8 +199,8 @@ class SchemaOrgOrderMailExpanderTest extends Unit
     protected function createCarrierTransferMock(string $carrierName)
     {
         $carrierTransfer = $this->getMockBuilder('Generated\Shared\Transfer\ShipmentCarrierTransfer')
-            ->disableOriginalConstructor()
-            ->addMethods([ 'getName' ])
+            // @TODO use deprecated setMethods because addMethods doesn't support unknown types. Change when it does.
+            ->setMethods([ 'getName' ])
             ->getMock();
         $carrierTransfer->method('getName')
             ->willReturn($carrierName);
@@ -216,8 +216,8 @@ class SchemaOrgOrderMailExpanderTest extends Unit
     protected function createItemStateTransferMock($status)
     {
         $stateTransfer = $this->getMockBuilder('Generated\Shared\Transfer\ItemStateTransfer')
-            ->disableOriginalConstructor()
-            ->addMethods([ 'getName' ])
+            // @TODO use deprecated setMethods because addMethods doesn't support unknown types. Change when it does.
+            ->setMethods([ 'getName' ])
             ->getMock();
         $stateTransfer->method('getName')
             ->willReturn($status);
@@ -235,8 +235,8 @@ class SchemaOrgOrderMailExpanderTest extends Unit
     protected function createItemTransferMock(int $id, MockObject $stateTransfer, $shipmentTransfer)
     {
         $itemTransfer = $this->getMockBuilder('Generated\Shared\Transfer\ItemTransfer')
-            ->disableOriginalConstructor()
-            ->addMethods(
+            // @TODO use deprecated setMethods because addMethods doesn't support unknown types. Change when it does.
+            ->setMethods(
                 [
                     'getIdSalesOrderItem',
                     'getState',
@@ -264,7 +264,8 @@ class SchemaOrgOrderMailExpanderTest extends Unit
         $spySalesOrderItems = [];
         foreach ($itemValues as $id => $values) {
             $spySalesOrderItem = $this->getMockBuilder('Spryker\Zed\Sales\Persistence\Base\SpySalesOrderItem')
-                ->addMethods(
+                // @TODO use deprecated setMethods because addMethods doesn't support unknown types. Change when it does.
+                ->setMethods(
                     [
                         'getLastStateChange',
                         'getState',
@@ -305,8 +306,8 @@ class SchemaOrgOrderMailExpanderTest extends Unit
     protected function createParcelDeliveryMock(string $carrierName): MockObject
     {
         $parcelDelivery = $this->getMockBuilder('Generated\Shared\Transfer\ParcelDelivery')
-            ->disableOriginalConstructor()
-            ->addMethods(
+            // @TODO use deprecated setMethods because addMethods doesn't support unknown types. Change when it does.
+            ->setMethods(
                 [
                     'setDeliveryName',
                     'setStatus'
@@ -336,8 +337,8 @@ class SchemaOrgOrderMailExpanderTest extends Unit
     protected function createSchemaOrgTransferMock(string $shopName, MockObject $parcelDelivery)
     {
         $schemaOrgTransfer = $this->getMockBuilder('Generated\Shared\Transfer\SchemaOrgTransfer')
-            ->disableOriginalConstructor()
-            ->addMethods(
+            // @TODO use deprecated setMethods because addMethods doesn't support unknown types. Change when it does.
+            ->setMethods(
                 [
                     'addParcelDelivery',
                     'setShopName',
