@@ -144,7 +144,7 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
         /** @var SpySalesOrderItem $salesOrderItem */
         foreach ($salesOrderItems as $salesOrderItem) {
             if (null === $lastChangedSalesOrderItem
-                || $salesOrderItems->getLastStateChange()
+                || $salesOrderItem->getLastStateChange()
                 > $lastChangedSalesOrderItem->getLastStateChange()) {
                 $lastChangedSalesOrderItem = $salesOrderItem;
             }
