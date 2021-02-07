@@ -304,7 +304,15 @@ class SchemaOrgOrderMailExpanderTest extends Unit
      */
     protected function createParcelDeliveryMock(string $carrierName): MockObject
     {
-        $parcelDelivery = $this->createMock('Generated\Shared\Transfer\ParcelDelivery');
+        $parcelDelivery = $this->getMockBuilder('Generated\Shared\Transfer\ParcelDelivery')
+            ->disableOriginalConstructor()
+            ->addMethods(
+                [
+                    'setDeliveryName',
+                    'setStatus'
+                ]
+            )
+            ->getMock();
         $parcelDelivery->method('setDeliveryName')
             ->with($carrierName);
         $parcelDelivery->method('setStatus')
