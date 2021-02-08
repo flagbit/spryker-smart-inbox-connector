@@ -7,5 +7,11 @@ use Generated\Shared\Transfer\OrderTransfer;
 
 interface OneAndOneMailConnectorFacadeInterface
 {
+    /**
+     * @param \Generated\Shared\Transfer\MailTransfer $mailTransfer
+     * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
+     *
+     * @return \Generated\Shared\Transfer\MailTransfer
+     */
     public function expendOrderMailTransfer(MailTransfer $mailTransfer, OrderTransfer $orderTransfer): MailTransfer;
 }

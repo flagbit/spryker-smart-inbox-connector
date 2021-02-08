@@ -10,13 +10,21 @@ use Generated\Shared\Transfer\SchemaOrgTransfer;
 use OneAndOne\Zed\OneAndOneMailConnector\Business\ParcelDelivery\ParcelDeliveryFactory;
 use OneAndOne\Zed\OneAndOneMailConnector\OneAndOneMailConnectorConfig;
 use OneAndOne\Zed\OneAndOneMailConnector\Persistence\OneAndOneMailConnectorRepositoryInterface;
-use Propel\Runtime\Collection\ObjectCollection;
 use Spryker\Zed\Sales\Persistence\Base\SpySalesOrderItem;
 
 class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
 {
+    /**
+     * @var OneAndOneMailConnectorConfig
+     */
     private $config;
+    /**
+     * @var OneAndOneMailConnectorRepositoryInterface
+     */
     private $repository;
+    /**
+     * @var ParcelDeliveryFactory
+     */
     private $parcelDeliveryFactory;
 
     public function __construct(
@@ -121,7 +129,7 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
     /**
      * @param OrderTransfer $orderTransfer
      *
-     * @return ObjectCollection
+     * @return \Propel\Runtime\Collection\ObjectCollection
      */
     protected function getSalesOrderItems(OrderTransfer $orderTransfer)
     {
