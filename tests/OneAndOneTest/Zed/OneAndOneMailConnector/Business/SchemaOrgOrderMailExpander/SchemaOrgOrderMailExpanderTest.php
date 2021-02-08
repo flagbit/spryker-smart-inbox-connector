@@ -3,11 +3,15 @@
 namespace OneAndOneTest\Zed\OneAndOneMailConnector\Business\SchemaOrgOrderMailExpander;
 
 use Codeception\Test\Unit;
+use Generated\Shared\Transfer\ItemStateTransfer;
+use Generated\Shared\Transfer\ItemTransfer;
 use Generated\Shared\Transfer\MailTemplateTransfer;
 use Generated\Shared\Transfer\MailTransfer;
 use Generated\Shared\Transfer\OrderTransfer;
 use Generated\Shared\Transfer\ParcelDeliveryTransfer;
 use Generated\Shared\Transfer\SchemaOrgTransfer;
+use Generated\Shared\Transfer\ShipmentCarrierTransfer;
+use Generated\Shared\Transfer\ShipmentTransfer;
 use OneAndOne\Zed\OneAndOneMailConnector\Business\ParcelDelivery\ParcelDeliveryFactory;
 use OneAndOne\Zed\OneAndOneMailConnector\Business\SchemaOrgOrderMailExpander\SchemaOrgOrderMailExpander;
 use OneAndOne\Zed\OneAndOneMailConnector\OneAndOneMailConnectorConfig;
@@ -16,49 +20,57 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class SchemaOrgOrderMailExpanderTest extends Unit
 {
+    /**
+     * @var \OneAndOneTest\Zed\OneAndOneMailConnector\OneAndOneMailConnectorBusinessTester
+     */
     protected $tester;
 
+    /**
+     * Test expandOrderMailTransfer method
+     *
+     * @return void
+     */
     public function testExpandOrderMailTransfer(): void
     {
         // Arrange
-        $shopName     = 'shop.com';
+        $shopName = 'shop.com';
         $statusMatrix = [
-            'new'       => 'OrderProcessing',
+            'new' => 'OrderProcessing',
             'cancelled' => 'OrderCancelled',
-            'shipped'   => 'OrderInTransit',
+            'shipped' => 'OrderInTransit',
             'delivered' => 'OrderDelivered',
-            'returned'  => 'OrderReturned',
+            'returned' => 'OrderReturned',
         ];
-        $itemValues   = [
+        $itemValues = [
             1 => [
-                'state'          => 'new',
+                'state' => 'new',
                 'schemaOrgState' => 'OrderProcessing',
-                'lastChange'     => 1,
+                'lastChange' => 1,
             ],
             2 => [
-                'state'          => 'cancelled',
+                'state' => 'cancelled',
                 'schemaOrgState' => 'OrderCancelled',
-                'lastChange'     => 3,
+                'lastChange' => 3,
             ],
             3 => [
-                'state'          => 'shipped',
+                'state' => 'shipped',
                 'schemaOrgState' => 'OrderInTransit',
-                'lastChange'     => 2,
+                'lastChange' => 2,
             ],
         ];
-        $carrierName  = 'delivery-bot';
+        $carrierName = 'delivery-bot';
 
-        $carrierTransfer       = $this->createCarrierTransferMock($carrierName);
-        $shipmentTransfer      = $this->createShipmentTransferMock($carrierTransfer);
-        $items                 = $this->createItemTransferMocks($itemValues, $shipmentTransfer);
-        $orderTransfer         = $this->createOrderTransferMock($items);
-        $mailTemplateTransfer  = $this->createMailTemplateTransferMock();
-        $parcelDelivery        = $this->createParcelDeliveryMock($carrierName);
-        $schemaOrgTransfer     = $this->createSchemaOrgTransferMock($shopName, $parcelDelivery);
-        $mailTransfer          = $this->createMailTransferMock($mailTemplateTransfer, $schemaOrgTransfer);
-        $config                = $this->createConfigMock($statusMatrix, $shopName);
-        $spySalesOrderItems    = $this->createSpySalesOrderItemMocks($itemValues);
-        $repository            = $this->createRepositoryMock($itemValues, $spySalesOrderItems);
+        $carrierTransfer = $this->createCarrierTransferMock($carrierName);
+        $shipmentTransfer = $this->createShipmentTransferMock($carrierTransfer);
+        $items = $this->createItemTransferMocks($itemValues, $shipmentTransfer);
+        $orderTransfer = $this->createOrderTransferMock($items);
+        $mailTemplateTransfer = $this->createMailTemplateTransferMock();
+        $parcelDelivery = $this->createParcelDeliveryMock($carrierName);
+        $schemaOrgTransfer = $this->createSchemaOrgTransferMock($shopName, $parcelDelivery);
+        $mailTransfer = $this->createMailTransferMock($mailTemplateTransfer, $schemaOrgTransfer);
+        $config = $this->createConfigMock($statusMatrix, $shopName);
+        $spySalesOrderItems = $this->createSpySalesOrderItemMocks($itemValues);
+        $repository = $this->createRepositoryMock($itemValues, $spySalesOrderItems);
         $parcelDeliveryFactory = $this->createParcelDeliveryFactoryMock($parcelDelivery);
 
         $schemaOrgOrderMailExpander = new SchemaOrgOrderMailExpander($config, $repository, $parcelDeliveryFactory);
@@ -76,12 +88,12 @@ class SchemaOrgOrderMailExpanderTest extends Unit
     }
 
     /**
-     * @param array  $statusMatrix
+     * @param array $statusMatrix
      * @param string $shopName
      *
-     * @return OneAndOneMailConnectorConfig|MockObject
+     * @return \OneAndOne\Zed\OneAndOneMailConnector\OneAndOneMailConnectorConfig|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function createConfigMock(array $statusMatrix, string $shopName)
+    protected function createConfigMock(array $statusMatrix, string $shopName): OneAndOneMailConnectorConfig
     {
         $config = $this->createMock(OneAndOneMailConnectorConfig::class);
         $config->method('getShopName')
@@ -93,9 +105,9 @@ class SchemaOrgOrderMailExpanderTest extends Unit
     }
 
     /**
-     * @return MockObject|MailTemplateTransfer
+     * @return \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\MailTemplateTransfer
      */
-    protected function createMailTemplateTransferMock()
+    protected function createMailTemplateTransferMock(): MailTemplateTransfer
     {
         $mailTemplateTransfer = $this->getMockBuilder('Generated\Shared\Transfer\MailTemplateTransfer')
             // @TODO use deprecated setMethods because addMethods doesn't support unknown types. Change when it does.
@@ -115,15 +127,15 @@ class SchemaOrgOrderMailExpanderTest extends Unit
     }
 
     /**
-     * @param MailTemplateTransfer $mailTemplateTransfer
-     * @param SchemaOrgTransfer    $schemaOrgTransfer
+     * @param \Generated\Shared\Transfer\MailTemplateTransfer $mailTemplateTransfer
+     * @param \Generated\Shared\Transfer\SchemaOrgTransfer $schemaOrgTransfer
      *
-     * @return MockObject|MailTransfer
+     * @return \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\MailTransfer
      */
     protected function createMailTransferMock(
         MailTemplateTransfer $mailTemplateTransfer,
         SchemaOrgTransfer $schemaOrgTransfer
-    ) {
+    ): MailTransfer {
         $mailTransfer = $this->getMockBuilder('Generated\Shared\Transfer\MailTransfer')
             // @TODO use deprecated setMethods because addMethods doesn't support unknown types. Change when it does.
             ->setMethods(
@@ -144,9 +156,9 @@ class SchemaOrgOrderMailExpanderTest extends Unit
     /**
      * @param array $items
      *
-     * @return MockObject|OrderTransfer
+     * @return \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\OrderTransfer
      */
-    protected function createOrderTransferMock(array $items)
+    protected function createOrderTransferMock(array $items): OrderTransfer
     {
         $orderTransfer = $this->getMockBuilder('Generated\Shared\Transfer\OrderTransfer')
             // @TODO use deprecated setMethods because addMethods doesn't support unknown types. Change when it does.
@@ -160,27 +172,27 @@ class SchemaOrgOrderMailExpanderTest extends Unit
 
     /**
      * @param array $itemValues
-     * @param       $shipmentTransfer
+     * @param \Generated\Shared\Transfer\ShipmentTransfer $shipmentTransfer
      *
      * @return array
      */
-    protected function createItemTransferMocks(array $itemValues, $shipmentTransfer): array
+    protected function createItemTransferMocks(array $itemValues, ShipmentTransfer $shipmentTransfer): array
     {
         $items = [];
         foreach ($itemValues as $id => $values) {
             $stateTransfer = $this->createItemStateTransferMock($values['state']);
-            $items[]       = $this->createItemTransferMock($id, $stateTransfer, $shipmentTransfer);
+            $items[] = $this->createItemTransferMock($id, $stateTransfer, $shipmentTransfer);
         }
 
         return $items;
     }
 
     /**
-     * @param MockObject $carrierTransfer
+     * @param \PHPUnit\Framework\MockObject\MockObject $carrierTransfer
      *
-     * @return MockObject|Generated\Shared\Transfer\ShipmentTransfer
+     * @return \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\ShipmentTransfer
      */
-    protected function createShipmentTransferMock(MockObject $carrierTransfer)
+    protected function createShipmentTransferMock(MockObject $carrierTransfer): ShipmentTransfer
     {
         $shipmentTransfer = $this->getMockBuilder('Generated\Shared\Transfer\ShipmentTransfer')
             // @TODO use deprecated setMethods because addMethods doesn't support unknown types. Change when it does.
@@ -195,9 +207,9 @@ class SchemaOrgOrderMailExpanderTest extends Unit
     /**
      * @param string $carrierName
      *
-     * @return MockObject|Generated\Shared\Transfer\ShipmentCarrierTransfer
+     * @return \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\ShipmentCarrierTransfer
      */
-    protected function createCarrierTransferMock(string $carrierName)
+    protected function createCarrierTransferMock(string $carrierName): ShipmentCarrierTransfer
     {
         $carrierTransfer = $this->getMockBuilder('Generated\Shared\Transfer\ShipmentCarrierTransfer')
             // @TODO use deprecated setMethods because addMethods doesn't support unknown types. Change when it does.
@@ -210,11 +222,11 @@ class SchemaOrgOrderMailExpanderTest extends Unit
     }
 
     /**
-     * @param $status
+     * @param string $status
      *
-     * @return MockObject|Generated\Shared\Transfer\ItemStateTransfer
+     * @return \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\ItemStateTransfer
      */
-    protected function createItemStateTransferMock($status)
+    protected function createItemStateTransferMock(string $status): ItemStateTransfer
     {
         $stateTransfer = $this->getMockBuilder('Generated\Shared\Transfer\ItemStateTransfer')
             // @TODO use deprecated setMethods because addMethods doesn't support unknown types. Change when it does.
@@ -227,14 +239,17 @@ class SchemaOrgOrderMailExpanderTest extends Unit
     }
 
     /**
-     * @param int        $id
-     * @param MockObject $stateTransfer
-     * @param            $shipmentTransfer
+     * @param int $id
+     * @param \PHPUnit\Framework\MockObject\MockObject $stateTransfer
+     * @param \Generated\Shared\Transfer\ShipmentTransfer $shipmentTransfer
      *
-     * @return MockObject|Generated\Shared\Transfer\ItemTransfer
+     * @return \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\ItemTransfer
      */
-    protected function createItemTransferMock(int $id, MockObject $stateTransfer, $shipmentTransfer)
-    {
+    protected function createItemTransferMock(
+        int $id,
+        MockObject $stateTransfer,
+        ShipmentTransfer $shipmentTransfer
+    ): ItemTransfer {
         $itemTransfer = $this->getMockBuilder('Generated\Shared\Transfer\ItemTransfer')
             // @TODO use deprecated setMethods because addMethods doesn't support unknown types. Change when it does.
             ->setMethods(
@@ -287,9 +302,9 @@ class SchemaOrgOrderMailExpanderTest extends Unit
      * @param array $itemValues
      * @param array $spySalesOrderItems
      *
-     * @return OneAndOneMailConnectorRepository|MockObject
+     * @return \OneAndOne\Zed\OneAndOneMailConnector\Persistence\OneAndOneMailConnectorRepository|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function createRepositoryMock(array $itemValues, array $spySalesOrderItems)
+    protected function createRepositoryMock(array $itemValues, array $spySalesOrderItems): OneAndOneMailConnectorRepository
     {
         $repository = $this->createMock(OneAndOneMailConnectorRepository::class);
         $repository->method('findSpySalesOrderItemsById')
@@ -302,9 +317,9 @@ class SchemaOrgOrderMailExpanderTest extends Unit
     /**
      * @param string $carrierName
      *
-     * @return MockObject|ParcelDeliveryTransfer
+     * @return \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\ParcelDeliveryTransfer
      */
-    protected function createParcelDeliveryMock(string $carrierName)
+    protected function createParcelDeliveryMock(string $carrierName): ParcelDeliveryTransfer
     {
         $parcelDelivery = $this->getMockBuilder('Generated\Shared\Transfer\ParcelDeliveryTransfer')
             // @TODO use deprecated setMethods because addMethods doesn't support unknown types. Change when it does.
@@ -328,12 +343,12 @@ class SchemaOrgOrderMailExpanderTest extends Unit
     }
 
     /**
-     * @param string     $shopName
-     * @param MockObject $parcelDelivery
+     * @param string $shopName
+     * @param \PHPUnit\Framework\MockObject\MockObject $parcelDelivery
      *
-     * @return MockObject|Generated\Shared\Transfer\SchemaOrgTransfer
+     * @return \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\SchemaOrgTransfer
      */
-    protected function createSchemaOrgTransferMock(string $shopName, MockObject $parcelDelivery)
+    protected function createSchemaOrgTransferMock(string $shopName, MockObject $parcelDelivery): SchemaOrgTransfer
     {
         $schemaOrgTransfer = $this->getMockBuilder('Generated\Shared\Transfer\SchemaOrgTransfer')
             // @TODO use deprecated setMethods because addMethods doesn't support unknown types. Change when it does.
@@ -356,11 +371,11 @@ class SchemaOrgOrderMailExpanderTest extends Unit
     }
 
     /**
-     * @param MockObject|ParcelDeliveryTransfer $parcelDelivery
+     * @param \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\ParcelDeliveryTransfer $parcelDelivery
      *
-     * @return ParcelDeliveryFactory|MockObject
+     * @return \OneAndOne\Zed\OneAndOneMAilConnector\Business\ParcelDelivery\ParcelDeliveryFactory|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function createParcelDeliveryFactoryMock($parcelDelivery)
+    protected function createParcelDeliveryFactoryMock($parcelDelivery): ParcelDeliveryFactory
     {
         $parcelDeliveryFactory = $this->createMock(ParcelDeliveryFactory::class);
         $parcelDeliveryFactory->method('create')
