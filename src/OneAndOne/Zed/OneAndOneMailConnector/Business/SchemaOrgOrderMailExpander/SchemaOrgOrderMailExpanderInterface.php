@@ -12,12 +12,12 @@ interface SchemaOrgOrderMailExpanderInterface
     /**
      * Expand the MailTransfer with an MailTemplateTransfer which adds additional schema.org information.
      *
-     * @param MailTransfer         $mailTransfer
-     * @param OrderTransfer        $orderTransfer
-     * @param MailTemplateTransfer $mailTemplateTransfer
-     * @param SchemaOrgTransfer    $schemaOrgTransfer
+     * @param \Generated\Shared\Transfer\MailTransfer $mailTransfer
+     * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
+     * @param \Generated\Shared\Transfer\MailTemplateTransfer $mailTemplateTransfer
+     * @param \Generated\Shared\Transfer\SchemaOrgTransfer $schemaOrgTransfer
      *
-     * @return MailTransfer
+     * @return \Generated\Shared\Transfer\MailTransfer
      */
     public function expandOrderMailTransfer(
         MailTransfer $mailTransfer,

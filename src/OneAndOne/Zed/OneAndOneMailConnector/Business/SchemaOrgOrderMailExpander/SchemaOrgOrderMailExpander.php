@@ -2,6 +2,7 @@
 
 namespace OneAndOne\Zed\OneAndOneMailConnector\Business\SchemaOrgOrderMailExpander;
 
+use Generated\Shared\Transfer\ItemTransfer;
 use Generated\Shared\Transfer\MailTemplateTransfer;
 use Generated\Shared\Transfer\MailTransfer;
 use Generated\Shared\Transfer\OrderTransfer;
@@ -15,35 +16,42 @@ use Spryker\Zed\Sales\Persistence\Base\SpySalesOrderItem;
 class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
 {
     /**
-     * @var OneAndOneMailConnectorConfig
+     * @var \OneAndOne\Zed\OneAndOneMailConnector\OneAndOneMailConnectorConfig
      */
     private $config;
+
     /**
-     * @var OneAndOneMailConnectorRepositoryInterface
+     * @var \OneAndOne\Zed\OneAndOneMailConnector\Persistence\OneAndOneMailConnectorRepositoryInterface
      */
     private $repository;
+
     /**
-     * @var ParcelDeliveryFactory
+     * @var \OneAndOne\Zed\OneAndOneMailConnector\Business\ParcelDelivery\ParcelDeliveryFactory
      */
     private $parcelDeliveryFactory;
 
+    /**
+     * @param \OneAndOne\Zed\OneAndOneMailConnector\OneAndOneMailConnectorConfig $config
+     * @param \OneAndOne\Zed\OneAndOneMailConnector\Persistence\OneAndOneMailConnectorRepositoryInterface $repository
+     * @param \OneAndOne\Zed\OneAndOneMailConnector\Business\ParcelDelivery\ParcelDeliveryFactory $parcelDeliveryFactory
+     */
     public function __construct(
         OneAndOneMailConnectorConfig $config,
         OneAndOneMailConnectorRepositoryInterface $repository,
         ParcelDeliveryFactory $parcelDeliveryFactory
     ) {
-        $this->config                = $config;
-        $this->repository            = $repository;
+        $this->config = $config;
+        $this->repository = $repository;
         $this->parcelDeliveryFactory = $parcelDeliveryFactory;
     }
 
     /**
-     * @param MailTransfer         $mailTransfer
-     * @param OrderTransfer        $orderTransfer
-     * @param MailTemplateTransfer $mailTemplateTransfer
-     * @param SchemaOrgTransfer    $schemaOrgTransfer
+     * @param \Generated\Shared\Transfer\MailTransfer $mailTransfer
+     * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
+     * @param \Generated\Shared\Transfer\MailTemplateTransfer $mailTemplateTransfer
+     * @param \Generated\Shared\Transfer\SchemaOrgTransfer $schemaOrgTransfer
      *
-     * @return MailTransfer
+     * @return \Generated\Shared\Transfer\MailTransfer
      */
     public function expandOrderMailTransfer(
         MailTransfer $mailTransfer,
@@ -61,13 +69,13 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
     }
 
     /**
-     * @param OrderTransfer $orderTransfer
+     * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
      *
      * @return string
      */
     protected function getLastChangedStatus(OrderTransfer $orderTransfer): string
     {
-        $salesOrderItems           = $this->getSalesOrderItems($orderTransfer);
+        $salesOrderItems = $this->getSalesOrderItems($orderTransfer);
         $lastChangedSalesOrderItem = $this->findLastChangesSalesOrderItem($salesOrderItems);
 
         return $lastChangedSalesOrderItem->getState()->getName();
@@ -92,7 +100,9 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
     }
 
     /**
-     * @param MailTemplateTransfer $mailTemplateTransfer
+     * @param \Generated\Shared\Transfer\MailTemplateTransfer $mailTemplateTransfer
+     *
+     * @return void
      */
     protected function fillMailTemplateInfos(MailTemplateTransfer $mailTemplateTransfer): void
     {
@@ -101,8 +111,10 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
     }
 
     /**
-     * @param OrderTransfer     $orderTransfer
-     * @param SchemaOrgTransfer $schemaOrgTransfer
+     * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
+     * @param \Generated\Shared\Transfer\SchemaOrgTransfer $schemaOrgTransfer
+     *
+     * @return void
      */
     protected function fillSchemaOrgTransfer(OrderTransfer $orderTransfer, SchemaOrgTransfer $schemaOrgTransfer): void
     {
@@ -117,17 +129,19 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
     }
 
     /**
-     * @param ParcelDeliveryTransfer $parcelDeliveryTransfer
-     * @param                        $item
+     * @param \Generated\Shared\Transfer\ParcelDeliveryTransfer $parcelDeliveryTransfer
+     * @param \Generated\Shared\Transfer\ItemTransfer $item
+     *
+     * @return void
      */
-    protected function fillParcelDelivery(ParcelDeliveryTransfer $parcelDeliveryTransfer, $item): void
+    protected function fillParcelDelivery(ParcelDeliveryTransfer $parcelDeliveryTransfer, ItemTransfer $item): void
     {
         $parcelDeliveryTransfer->setDeliveryName($item->getShipment()->getCarrier()->getName());
         $parcelDeliveryTransfer->setStatus($this->getSchemaStatusWithOrderStatus($item->getState()->getName()));
     }
 
     /**
-     * @param OrderTransfer $orderTransfer
+     * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
      *
      * @return \Propel\Runtime\Collection\ObjectCollection
      */
@@ -142,18 +156,20 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
     }
 
     /**
-     * @param $salesOrderItems
+     * @param array $salesOrderItems
      *
-     * @return null|SpySalesOrderItem
+     * @return \Spryker\Zed\Sales\Persistence\Base\SpySalesOrderItem|null
      */
-    protected function findLastChangesSalesOrderItem($salesOrderItems): ?SpySalesOrderItem
+    protected function findLastChangesSalesOrderItem(array $salesOrderItems): ?SpySalesOrderItem
     {
         $lastChangedSalesOrderItem = null;
-        /** @var SpySalesOrderItem $salesOrderItem */
+        /** @var \Spryker\Zed\Sales\Persistence\Base\SpySalesOrderItem $salesOrderItem */
         foreach ($salesOrderItems as $salesOrderItem) {
-            if (null === $lastChangedSalesOrderItem
+            if (
+                $lastChangedSalesOrderItem === null
                 || $salesOrderItem->getLastStateChange()
-                > $lastChangedSalesOrderItem->getLastStateChange()) {
+                > $lastChangedSalesOrderItem->getLastStateChange()
+            ) {
                 $lastChangedSalesOrderItem = $salesOrderItem;
             }
         }
