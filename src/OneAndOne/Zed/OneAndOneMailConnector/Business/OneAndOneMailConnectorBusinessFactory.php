@@ -3,17 +3,24 @@
 namespace OneAndOne\Zed\OneAndOneMailConnector\Business;
 
 use Generated\Shared\Transfer\MailTemplateTransfer;
-use Generated\Shared\Transfer\OneAndOneMailConnectorTransfer;
 use Generated\Shared\Transfer\SchemaOrgTransfer;
 use OneAndOne\Zed\OneAndOneMailConnector\Business\ParcelDelivery\ParcelDeliveryFactory;
-use OneAndOne\Zed\OneAndOneMailConnector\Business\SchemaOrgOrderMailExpander\SchemaOrgOrderMailExpanderInterface;
 use OneAndOne\Zed\OneAndOneMailConnector\Business\SchemaOrgOrderMailExpander\SchemaOrgOrderMailExpander;
+use OneAndOne\Zed\OneAndOneMailConnector\Business\SchemaOrgOrderMailExpander\SchemaOrgOrderMailExpanderInterface;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 
+/**
+ * Class OneAndOneMailConnectorBusinessFactory
+ *
+ * @method \OneAndOne\Zed\OneAndOneMailConnector\OneAndOneMailConnectorConfig getConfig()
+ * @method \OneAndOne\Zed\OneAndOneMailConnector\Persistence\OneAndOneMailConnectorRepositoryInterface getRepository()
+ *
+ * @package OneAndOne\Zed\OneAndOneMailConnector\Business
+ */
 class OneAndOneMailConnectorBusinessFactory extends AbstractBusinessFactory
 {
     /**
-     * @return SchemaOrgOrderMailExpanderInterface
+     * @return \OneAndOne\Zed\OneAndOneMailConnector\Business\SchemaOrgOrderMailExpander\SchemaOrgOrderMailExpanderInterface
      */
     public function createSchemaOrgOrderMailExpander(): SchemaOrgOrderMailExpanderInterface
     {
@@ -21,7 +28,7 @@ class OneAndOneMailConnectorBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return MailTemplateTransfer
+     * @return \Generated\Shared\Transfer\MailTemplateTransfer
      */
     public function createMailTemplateTransfer(): MailTemplateTransfer
     {
@@ -29,7 +36,7 @@ class OneAndOneMailConnectorBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return SchemaOrgTransfer
+     * @return \Generated\Shared\Transfer\SchemaOrgTransfer
      */
     public function createSchemaOrgTransfer(): SchemaOrgTransfer
     {
@@ -37,7 +44,7 @@ class OneAndOneMailConnectorBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return ParcelDeliveryFactory
+     * @return \OneAndOne\Zed\OneAndOneMailConnector\Business\ParcelDelivery\ParcelDeliveryFactory
      */
     protected function createParcelDeliveryFactory(): ParcelDeliveryFactory
     {
