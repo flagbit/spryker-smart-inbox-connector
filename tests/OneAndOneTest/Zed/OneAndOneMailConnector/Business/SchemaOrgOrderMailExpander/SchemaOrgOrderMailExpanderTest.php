@@ -3,15 +3,6 @@
 namespace OneAndOneTest\Zed\OneAndOneMailConnector\Business\SchemaOrgOrderMailExpander;
 
 use Codeception\Test\Unit;
-use Generated\Shared\Transfer\ItemStateTransfer;
-use Generated\Shared\Transfer\ItemTransfer;
-use Generated\Shared\Transfer\MailTemplateTransfer;
-use Generated\Shared\Transfer\MailTransfer;
-use Generated\Shared\Transfer\OrderTransfer;
-use Generated\Shared\Transfer\ParcelDeliveryTransfer;
-use Generated\Shared\Transfer\SchemaOrgTransfer;
-use Generated\Shared\Transfer\ShipmentCarrierTransfer;
-use Generated\Shared\Transfer\ShipmentTransfer;
 use OneAndOne\Zed\OneAndOneMailConnector\Business\SchemaOrgOrderMailExpander\SchemaOrgOrderMailExpander;
 
 class SchemaOrgOrderMailExpanderTest extends Unit
