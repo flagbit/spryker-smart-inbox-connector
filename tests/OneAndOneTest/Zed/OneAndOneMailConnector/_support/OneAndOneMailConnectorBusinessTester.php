@@ -39,10 +39,6 @@ class OneAndOneMailConnectorBusinessTester extends Actor
     use _generated\OneAndOneMailConnectorBusinessTesterActions;
 
     /**
-     * Define custom actions here
-     */
-
-    /**
      * @param \Codeception\Test\Unit $unit
      * @param array $statusMatrix
      * @param string $shopName
