@@ -10,12 +10,8 @@ use OneAndOne\Zed\OneAndOneMailConnector\Business\SchemaOrgOrderMailExpander\Sch
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 
 /**
- * Class OneAndOneMailConnectorBusinessFactory
- *
  * @method \OneAndOne\Zed\OneAndOneMailConnector\OneAndOneMailConnectorConfig getConfig()
  * @method \OneAndOne\Zed\OneAndOneMailConnector\Persistence\OneAndOneMailConnectorRepositoryInterface getRepository()
- *
- * @package OneAndOne\Zed\OneAndOneMailConnector\Business
  */
 class OneAndOneMailConnectorBusinessFactory extends AbstractBusinessFactory
 {

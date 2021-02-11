@@ -7,12 +7,8 @@ use Generated\Shared\Transfer\OrderTransfer;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
 
 /**
- * Class OneAndOneMailConnectorFacade
- *
  * @method \OneAndOne\Zed\OneAndOneMailConnector\Business\OneAndOneMailConnectorBusinessFactory getFactory()
  * @method \OneAndOne\Zed\OneAndOneMailConnector\Persistence\OneAndOneMailConnectorRepositoryInterface getRepository()
- *
- * @package OneAndOne\Zed\OneAndOneMailConnector\Business
  */
 class OneAndOneMailConnectorFacade extends AbstractFacade implements OneAndOneMailConnectorFacadeInterface
 {

@@ -8,12 +8,8 @@ use Spryker\Zed\Kernel\Communication\AbstractPlugin;
 use Spryker\Zed\OmsExtension\Dependency\Plugin\OmsOrderMailExpanderPluginInterface;
 
 /**
- * Class OneAndOneMailConnectorOrderMailExpanderPlugin
- *
  * @method \OneAndOne\Zed\OneAndOneMailConnector\Business\OneAndOneMailConnectorFacade getFacade()
  * @method \OneAndOne\Zed\OneAndOneMailConnector\OneAndOneMailConnectorConfig getConfig()
- *
- * @package OneAndOne\Zed\OneAndOneMailConnector\Communication\Plugin
  */
 class OneAndOneMailConnectorOrderMailExpanderPlugin extends AbstractPlugin implements OmsOrderMailExpanderPluginInterface
 {

@@ -6,11 +6,7 @@ use Propel\Runtime\ActiveQuery\Criteria;
 use Spryker\Zed\Kernel\Persistence\AbstractRepository;
 
 /**
- * Class OneAndOneMailConnectorRepository
- *
  * @method \OneAndOne\Zed\OneAndOneMailConnector\Persistence\OneAndOneMailConnectorPersistenceFactory getFactory()
- *
- * @package OneAndOne\Zed\OneAndOneMailConnector\Persistence
  */
 class OneAndOneMailConnectorRepository extends AbstractRepository implements OneAndOneMailConnectorRepositoryInterface
 {
