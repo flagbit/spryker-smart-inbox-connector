@@ -18,7 +18,7 @@ class OneAndOneMailConnectorFacade extends AbstractFacade implements OneAndOneMa
      *
      * @return \Generated\Shared\Transfer\MailTransfer
      */
-    public function expendOrderMailTransfer(MailTransfer $mailTransfer, OrderTransfer $orderTransfer): MailTransfer
+    public function expandOrderMailTransfer(MailTransfer $mailTransfer, OrderTransfer $orderTransfer): MailTransfer
     {
         return $this->getFactory()
             ->createSchemaOrgOrderMailExpander()

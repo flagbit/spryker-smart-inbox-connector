@@ -23,6 +23,6 @@ class OneAndOneMailConnectorOrderMailExpanderPlugin extends AbstractPlugin imple
      */
     public function expand(MailTransfer $mailTransfer, OrderTransfer $orderTransfer): MailTransfer
     {
-        return $this->getFacade()->expendOrderMailTransfer($mailTransfer, $orderTransfer);
+        return $this->getFacade()->expandOrderMailTransfer($mailTransfer, $orderTransfer);
     }
 }
