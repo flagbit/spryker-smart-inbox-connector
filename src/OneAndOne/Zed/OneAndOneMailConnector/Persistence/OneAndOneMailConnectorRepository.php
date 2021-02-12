@@ -15,12 +15,13 @@ class OneAndOneMailConnectorRepository extends AbstractRepository implements One
      *
      * @return mixed
      */
-    public function findSpySalesOrderItemsById(array $idOrderItems)
+    public function findSpySalesOrderItemByIdWithLastStateChange(array $idOrderItems)
     {
         return $this
             ->getFactory()
             ->createSpySalesOrderItemQuery()
+            ->orderByLastStateChange(Criteria::DESC)
             ->filterByIdSalesOrderItem($idOrderItems, Criteria::IN)
-            ->find();
+            ->findOne();
     }
 }

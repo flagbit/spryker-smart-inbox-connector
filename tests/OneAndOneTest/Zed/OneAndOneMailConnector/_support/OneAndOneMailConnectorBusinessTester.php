@@ -16,8 +16,8 @@ use Generated\Shared\Transfer\ShipmentTransfer;
 use OneAndOne\Zed\OneAndOneMailConnector\Business\ParcelDelivery\ParcelDeliveryFactory;
 use OneAndOne\Zed\OneAndOneMailConnector\OneAndOneMailConnectorConfig;
 use OneAndOne\Zed\OneAndOneMailConnector\Persistence\OneAndOneMailConnectorRepository;
+use Orm\Zed\Sales\Persistence\SpySalesOrderItem;
 use PHPUnit\Framework\MockObject\MockObject;
-use Propel\Runtime\Collection\ObjectCollection;
 
 /**
  * Inherited Methods
@@ -188,57 +188,43 @@ class OneAndOneMailConnectorBusinessTester extends Actor
      * @param \Codeception\Test\Unit $unit
      * @param array $itemValues
      *
-     * @return array
+     * @return \PHPUnit\Framework\MockObjec\MockObject|\Orm\Zed\Sales\Persistence\SpySalesOrderItem
      */
-    public function createSpySalesOrderItemMocks(Unit $unit, array $itemValues): array
+    public function createSpySalesOrderItemMocks(Unit $unit, array $itemValues): SpySalesOrderItem
     {
-        $spySalesOrderItems = [];
-        foreach ($itemValues as $id => $values) {
-            $spySalesOrderItem = $unit->getMockBuilder('Orm\Zed\Sales\Persistence\SpySalesOrderItem')
-                // @TODO use deprecated setMethods because addMethods doesn't support unknown types. Change when it does.
-                ->setMethods(
-                    [
-                        'getLastStateChange',
-                        'getState',
-                    ]
-                )
-                ->getMock();
-            $spySalesOrderItem->method('getState')
-                ->willReturn($this->createItemStateTransferMock($unit, $values['state']));
-            $spySalesOrderItem->method('getLastStateChange')
-                ->willReturn($values['lastChange']);
-            $spySalesOrderItems[] = $spySalesOrderItem;
-        }
+        $spySalesOrderItem = $unit->getMockBuilder('Orm\Zed\Sales\Persistence\SpySalesOrderItem')
+            // @TODO use deprecated setMethods because addMethods doesn't support unknown types. Change when it does.
+            ->setMethods(
+                [
+                    'getLastStateChange',
+                    'getState',
+                ]
+            )
+            ->getMock();
+        $spySalesOrderItem->method('getState')
+            ->willReturn($this->createItemStateTransferMock($unit, $itemValues['state']));
+        $spySalesOrderItem->method('getLastStateChange')
+            ->willReturn($itemValues['lastChange']);
 
-        return $spySalesOrderItems;
-    }
-
-    /**
-     * @param array $items
-     *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Propel\Runtime\Collection\ObjectCollection
-     */
-    public function createObjectCollection(array $items): ObjectCollection
-    {
-        return new ObjectCollection($items);
+        return $spySalesOrderItem;
     }
 
     /**
      * @param \Codeception\Test\Unit $unit
      * @param array $itemValues
-     * @param \Propel\Runtime\Collection\ObjectCollection $orderCollection
+     * @param \Orm\Zed\Sales\Persistence\SpySalesOrderItem $orderCollection
      *
      * @return \OneAndOne\Zed\OneAndOneMailConnector\Persistence\OneAndOneMailConnectorRepository|\PHPUnit\Framework\MockObject\MockObject
      */
     public function createRepositoryMock(
         Unit $unit,
         array $itemValues,
-        ObjectCollection $orderCollection
+        SpySalesOrderItem $orderCollection
     ): OneAndOneMailConnectorRepository {
         $repository = $unit->getMockBuilder(OneAndOneMailConnectorRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $repository->method('findSpySalesOrderItemsById')
+        $repository->method('findSpySalesOrderItemByIdWithLastStateChange')
             ->with(array_keys($itemValues))
             ->willReturn($orderCollection);
 

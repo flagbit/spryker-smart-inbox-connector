@@ -9,5 +9,5 @@ interface OneAndOneMailConnectorRepositoryInterface
      *
      * @return mixed
      */
-    public function findSpySalesOrderItemsById(array $idOrderItems);
+    public function findSpySalesOrderItemByIdWithLastStateChange(array $idOrderItems);
 }

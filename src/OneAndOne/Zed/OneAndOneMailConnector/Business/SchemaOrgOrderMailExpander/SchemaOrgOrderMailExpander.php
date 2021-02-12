@@ -11,8 +11,6 @@ use Generated\Shared\Transfer\SchemaOrgTransfer;
 use OneAndOne\Zed\OneAndOneMailConnector\Business\ParcelDelivery\ParcelDeliveryFactory;
 use OneAndOne\Zed\OneAndOneMailConnector\OneAndOneMailConnectorConfig;
 use OneAndOne\Zed\OneAndOneMailConnector\Persistence\OneAndOneMailConnectorRepositoryInterface;
-use Orm\Zed\Sales\Persistence\SpySalesOrderItem;
-use Propel\Runtime\Collection\ObjectCollection;
 
 class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
 {
@@ -76,10 +74,9 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
      */
     protected function getLastChangedStatus(OrderTransfer $orderTransfer): string
     {
-        $salesOrderItems = $this->getSalesOrderItems($orderTransfer);
-        $lastChangedSalesOrderItem = $this->findLastChangesSalesOrderItem($salesOrderItems);
+        $salesOrderItem = $this->getSalesOrderItem($orderTransfer);
 
-        return $lastChangedSalesOrderItem->getState()->getName();
+        return $salesOrderItem->getState()->getName();
     }
 
     /**
@@ -152,35 +149,13 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
      *
      * @return \Propel\Runtime\Collection\ObjectCollection
      */
-    protected function getSalesOrderItems(OrderTransfer $orderTransfer)
+    protected function getSalesOrderItem(OrderTransfer $orderTransfer)
     {
         $orderIds = [];
         foreach ($orderTransfer->getItems() as $item) {
             $orderIds[] = $item->getIdSalesOrderItem();
         }
 
-        return $this->repository->findSpySalesOrderItemsById($orderIds);
-    }
-
-    /**
-     * @param \Propel\Runtime\Collection\ObjectCollection $salesOrderItems
-     *
-     * @return \Orm\Zed\Sales\Persistence\SpySalesOrderItem|null
-     */
-    protected function findLastChangesSalesOrderItem(ObjectCollection $salesOrderItems): ?SpySalesOrderItem
-    {
-        $lastChangedSalesOrderItem = null;
-        /** @var \Orm\Zed\Sales\Persistence\SpySalesOrderItem $salesOrderItem */
-        foreach ($salesOrderItems as $salesOrderItem) {
-            if (
-                $lastChangedSalesOrderItem === null
-                || $salesOrderItem->getLastStateChange()
-                > $lastChangedSalesOrderItem->getLastStateChange()
-            ) {
-                $lastChangedSalesOrderItem = $salesOrderItem;
-            }
-        }
-
-        return $lastChangedSalesOrderItem;
+        return $this->repository->findSpySalesOrderItemByIdWithLastStateChange($orderIds);
     }
 }

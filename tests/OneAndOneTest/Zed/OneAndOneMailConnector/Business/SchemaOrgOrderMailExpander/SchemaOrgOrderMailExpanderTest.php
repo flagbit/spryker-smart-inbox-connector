@@ -32,18 +32,21 @@ class SchemaOrgOrderMailExpanderTest extends Unit
             1 => [
                 'state' => 'new',
                 'schemaOrgState' => 'OrderProcessing',
-                'lastChange' => 1,
             ],
             2 => [
                 'state' => 'cancelled',
                 'schemaOrgState' => 'OrderCancelled',
-                'lastChange' => 3,
             ],
             3 => [
                 'state' => 'shipped',
                 'schemaOrgState' => 'OrderInTransit',
-                'lastChange' => 2,
             ],
+        ];
+        $lastItemValue = [
+            'id' => 2,
+            'state' => 'cancelled',
+            'schemaOrgState' => 'OrderCancelled',
+            'lastChange' => 3,
         ];
         $carrierName = 'delivery-bot';
 
@@ -56,9 +59,8 @@ class SchemaOrgOrderMailExpanderTest extends Unit
         $schemaOrgTransfer = $this->tester->createSchemaOrgTransferMock($this, $shopName, $parcelDelivery);
         $mailTransfer = $this->tester->createMailTransferMock($this, $mailTemplateTransfer, $schemaOrgTransfer);
         $config = $this->tester->createConfigMock($this, $statusMatrix, $shopName);
-        $spySalesOrderItems = $this->tester->createSpySalesOrderItemMocks($this, $itemValues);
-        $objectCollection = $this->tester->createObjectCollection($spySalesOrderItems);
-        $repository = $this->tester->createRepositoryMock($this, $itemValues, $objectCollection);
+        $spySalesOrderItem = $this->tester->createSpySalesOrderItemMocks($this, $lastItemValue);
+        $repository = $this->tester->createRepositoryMock($this, $itemValues, $spySalesOrderItem);
         $parcelDeliveryFactory = $this->tester->createParcelDeliveryFactoryMock($this, $parcelDelivery);
 
         $schemaOrgOrderMailExpander = new SchemaOrgOrderMailExpander($config, $repository, $parcelDeliveryFactory);
