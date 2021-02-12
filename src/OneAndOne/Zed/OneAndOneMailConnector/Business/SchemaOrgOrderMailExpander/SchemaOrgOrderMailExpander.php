@@ -11,6 +11,7 @@ use Generated\Shared\Transfer\SchemaOrgTransfer;
 use OneAndOne\Zed\OneAndOneMailConnector\Business\ParcelDelivery\ParcelDeliveryFactory;
 use OneAndOne\Zed\OneAndOneMailConnector\OneAndOneMailConnectorConfig;
 use OneAndOne\Zed\OneAndOneMailConnector\Persistence\OneAndOneMailConnectorRepositoryInterface;
+use Propel\Runtime\Collection\ObjectCollection;
 use Spryker\Zed\Sales\Persistence\Base\SpySalesOrderItem;
 
 class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
@@ -156,11 +157,11 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
     }
 
     /**
-     * @param array $salesOrderItems
+     * @param \Propel\Runtime\Collection\ObjectCollection $salesOrderItems
      *
      * @return \Spryker\Zed\Sales\Persistence\Base\SpySalesOrderItem|null
      */
-    protected function findLastChangesSalesOrderItem(array $salesOrderItems): ?SpySalesOrderItem
+    protected function findLastChangesSalesOrderItem(ObjectCollection $salesOrderItems): ?SpySalesOrderItem
     {
         $lastChangedSalesOrderItem = null;
         /** @var \Spryker\Zed\Sales\Persistence\Base\SpySalesOrderItem $salesOrderItem */

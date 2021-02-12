@@ -57,7 +57,8 @@ class SchemaOrgOrderMailExpanderTest extends Unit
         $mailTransfer = $this->tester->createMailTransferMock($this, $mailTemplateTransfer, $schemaOrgTransfer);
         $config = $this->tester->createConfigMock($this, $statusMatrix, $shopName);
         $spySalesOrderItems = $this->tester->createSpySalesOrderItemMocks($this, $itemValues);
-        $repository = $this->tester->createRepositoryMock($this, $itemValues, $spySalesOrderItems);
+        $objectCollection = $this->tester->createObjectCollection($spySalesOrderItems);
+        $repository = $this->tester->createRepositoryMock($this, $itemValues, $objectCollection);
         $parcelDeliveryFactory = $this->tester->createParcelDeliveryFactoryMock($this, $parcelDelivery);
 
         $schemaOrgOrderMailExpander = new SchemaOrgOrderMailExpander($config, $repository, $parcelDeliveryFactory);

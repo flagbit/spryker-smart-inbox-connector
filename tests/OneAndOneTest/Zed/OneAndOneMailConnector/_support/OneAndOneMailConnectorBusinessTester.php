@@ -17,6 +17,7 @@ use OneAndOne\Zed\OneAndOneMailConnector\Business\ParcelDelivery\ParcelDeliveryF
 use OneAndOne\Zed\OneAndOneMailConnector\OneAndOneMailConnectorConfig;
 use OneAndOne\Zed\OneAndOneMailConnector\Persistence\OneAndOneMailConnectorRepository;
 use PHPUnit\Framework\MockObject\MockObject;
+use Propel\Runtime\Collection\ObjectCollection;
 
 /**
  * Inherited Methods
@@ -213,23 +214,33 @@ class OneAndOneMailConnectorBusinessTester extends Actor
     }
 
     /**
+     * @param array $items
+     *
+     * @return \PHPUnit\Framework\MockObject\MockObject|\Propel\Runtime\Collection\ObjectCollection
+     */
+    public function createObjectCollection(array $items): ObjectCollection
+    {
+        return new ObjectCollection($items);
+    }
+
+    /**
      * @param \Codeception\Test\Unit $unit
      * @param array $itemValues
-     * @param array $spySalesOrderItems
+     * @param \Propel\Runtime\Collection\ObjectCollection $orderCollection
      *
      * @return \OneAndOne\Zed\OneAndOneMailConnector\Persistence\OneAndOneMailConnectorRepository|\PHPUnit\Framework\MockObject\MockObject
      */
     public function createRepositoryMock(
         Unit $unit,
         array $itemValues,
-        array $spySalesOrderItems
+        ObjectCollection $orderCollection
     ): OneAndOneMailConnectorRepository {
         $repository = $unit->getMockBuilder(OneAndOneMailConnectorRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
         $repository->method('findSpySalesOrderItemsById')
             ->with(array_keys($itemValues))
-            ->willReturn($spySalesOrderItems);
+            ->willReturn($orderCollection);
 
         return $repository;
     }
