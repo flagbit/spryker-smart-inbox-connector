@@ -1,5 +1,5 @@
 {
-  "name": "flagbit/spryker-transaction-mail-extender",
+  "name": "one-and-one/one-and-one-mail-connector",
   "type": "library",
   "description": "Send Spryker transactionals E-Mails",
   "license": "proprietary",
