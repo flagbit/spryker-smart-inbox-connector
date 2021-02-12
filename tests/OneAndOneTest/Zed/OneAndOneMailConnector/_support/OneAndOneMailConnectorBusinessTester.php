@@ -194,7 +194,7 @@ class OneAndOneMailConnectorBusinessTester extends Actor
     {
         $spySalesOrderItems = [];
         foreach ($itemValues as $id => $values) {
-            $spySalesOrderItem = $unit->getMockBuilder('Spryker\Zed\Sales\Persistence\Base\SpySalesOrderItem')
+            $spySalesOrderItem = $unit->getMockBuilder('Orm\Zed\Sales\Persistence\SpySalesOrderItem')
                 // @TODO use deprecated setMethods because addMethods doesn't support unknown types. Change when it does.
                 ->setMethods(
                     [
