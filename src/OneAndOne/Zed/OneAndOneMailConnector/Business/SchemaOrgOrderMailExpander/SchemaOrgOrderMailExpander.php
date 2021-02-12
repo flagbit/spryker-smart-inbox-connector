@@ -60,10 +60,10 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
         MailTemplateTransfer $mailTemplateTransfer,
         SchemaOrgTransfer $schemaOrgTransfer
     ): MailTransfer {
-        $this->fillMailTemplateInfos($mailTemplateTransfer);
+        $mailTemplateTransfer = $this->fillMailTemplateInfos($mailTemplateTransfer);
         $mailTransfer->addTemplate($mailTemplateTransfer);
 
-        $this->fillSchemaOrgTransfer($orderTransfer, $schemaOrgTransfer);
+        $schemaOrgTransfer = $this->fillSchemaOrgTransfer($orderTransfer, $schemaOrgTransfer);
         $mailTransfer->setSchemaOrg($schemaOrgTransfer);
 
         return $mailTransfer;
@@ -103,22 +103,26 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
     /**
      * @param \Generated\Shared\Transfer\MailTemplateTransfer $mailTemplateTransfer
      *
-     * @return void
+     * @return \Generated\Shared\Transfer\MailTemplateTransfer
      */
-    protected function fillMailTemplateInfos(MailTemplateTransfer $mailTemplateTransfer): void
+    protected function fillMailTemplateInfos(MailTemplateTransfer $mailTemplateTransfer): MailTemplateTransfer
     {
         $mailTemplateTransfer->setIsHtml(true);
         $mailTemplateTransfer->setName('oneAndOneMailConnector/mail/schema_org_order_connector.html.twig');
+
+        return $mailTemplateTransfer;
     }
 
     /**
      * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
      * @param \Generated\Shared\Transfer\SchemaOrgTransfer $schemaOrgTransfer
      *
-     * @return void
+     * @return \Generated\Shared\Transfer\SchemaOrgTransfer
      */
-    protected function fillSchemaOrgTransfer(OrderTransfer $orderTransfer, SchemaOrgTransfer $schemaOrgTransfer): void
-    {
+    protected function fillSchemaOrgTransfer(
+        OrderTransfer $orderTransfer,
+        SchemaOrgTransfer $schemaOrgTransfer
+    ): SchemaOrgTransfer {
         foreach ($orderTransfer->getItems() as $item) {
             $parcelDeliveryTransfer = $this->parcelDeliveryFactory->create();
             $this->fillParcelDelivery($parcelDeliveryTransfer, $item);
@@ -127,6 +131,8 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
 
         $schemaOrgTransfer->setShopName($this->getShopName());
         $schemaOrgTransfer->setStatus($this->getSchemaStatusWithOrderStatus($this->getLastChangedStatus($orderTransfer)));
+
+        return $schemaOrgTransfer;
     }
 
     /**
