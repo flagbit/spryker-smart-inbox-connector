@@ -2,7 +2,7 @@
   "name": "one-and-one/one-and-one-mail-connector",
   "type": "library",
   "description": "Send Spryker transactionals E-Mails",
-  "license": "proprietary",
+  "license": "MIT",
   "require": {
     "php": ">=7.2",
     "spryker/mail": "^4.0.0",
