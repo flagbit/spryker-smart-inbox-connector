@@ -1,0 +1,20 @@
+namespace: OneAndOneMailConnector
+
+include:
+  - tests/OneAndOneTest/Zed/OneAndOneMailConnector
+
+paths:
+  tests: tests
+  support: .
+  log: tests/_output
+  data: tests/_data
+
+settings:
+  suite_class: \PHPUnit_Framework_TestSuite
+  colors: true
+  memory_limit: 1024M
+  log: true
+
+coverage:
+  enabled: true
+  whitelist: { include: ['src/*'] }
