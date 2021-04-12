@@ -1,4 +1,4 @@
-# spryker-transaction-mail-extender
+# 1&1 Spryker Smart Inbox Connector
 
 Extends Spryker transaction mails with a Schema.org conform HTML content
 
@@ -7,7 +7,7 @@ Extends Spryker transaction mails with a Schema.org conform HTML content
 ### Require the module
 
 To get the module you have to require it with composer:
-`composer require flagbit/spryker-transaction-mail-extender`
+`composer require flagbit/spryker-smart-inbox-connector`
 
 ### Generate transfer objects
 

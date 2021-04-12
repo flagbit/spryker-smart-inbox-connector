@@ -1,9 +1,9 @@
 <maintenance>
     <pages>
         <one-and-one-bingo>
-            <label>1&amp;1 Mail settings</label>
+            <label>1&amp;amp;1 Mail settings</label>
             <title>1&amp;amp;1 Mail settings</title>
-            <bundle>one-and-one-mail-connector</bundle>
+            <bundle>spryker-smart-inbox-connector</bundle>
             <controller>index</controller>
             <action>index</action>
         </one-and-one-bingo>
