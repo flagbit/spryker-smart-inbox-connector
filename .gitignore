@@ -2,3 +2,4 @@ composer.phar
 /vendor/
 .gitignore
 composer.lock
+tests/OneAndOneTest/Zed/OneAndOneMailConnector/_support/_generated

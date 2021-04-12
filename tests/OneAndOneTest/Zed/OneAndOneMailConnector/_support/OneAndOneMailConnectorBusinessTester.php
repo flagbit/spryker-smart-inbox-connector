@@ -17,7 +17,6 @@ use OneAndOne\Zed\OneAndOneMailConnector\Business\ParcelDelivery\ParcelDeliveryF
 use OneAndOne\Zed\OneAndOneMailConnector\OneAndOneMailConnectorConfig;
 use OneAndOne\Zed\OneAndOneMailConnector\Persistence\OneAndOneMailConnectorRepository;
 use Orm\Zed\Sales\Persistence\SpySalesOrderItem;
-use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Inherited Methods
@@ -150,11 +149,11 @@ class OneAndOneMailConnectorBusinessTester extends Actor
 
     /**
      * @param \Codeception\Test\Unit $unit
-     * @param \PHPUnit\Framework\MockObject\MockObject $carrierTransfer
+     * @param \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\ShipmentCarrierTransfer $carrierTransfer
      *
      * @return \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\ShipmentTransfer
      */
-    public function createShipmentTransferMock(Unit $unit, MockObject $carrierTransfer): ShipmentTransfer
+    public function createShipmentTransferMock(Unit $unit, ShipmentCarrierTransfer $carrierTransfer): ShipmentTransfer
     {
         $shipmentTransfer = $unit->getMockBuilder('Generated\Shared\Transfer\ShipmentTransfer')
             // @TODO use deprecated setMethods because addMethods doesn't support unknown types. Change when it does.
@@ -263,11 +262,11 @@ class OneAndOneMailConnectorBusinessTester extends Actor
     /**
      * @param \Codeception\Test\Unit $unit
      * @param string $shopName
-     * @param \PHPUnit\Framework\MockObject\MockObject $parcelDelivery
+     * @param \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\ParcelDeliveryTransfer $parcelDelivery
      *
      * @return \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\SchemaOrgTransfer
      */
-    public function createSchemaOrgTransferMock(Unit $unit, string $shopName, MockObject $parcelDelivery): SchemaOrgTransfer
+    public function createSchemaOrgTransferMock(Unit $unit, string $shopName, ParcelDeliveryTransfer $parcelDelivery): SchemaOrgTransfer
     {
         $schemaOrgTransfer = $unit->getMockBuilder('Generated\Shared\Transfer\SchemaOrgTransfer')
             // @TODO use deprecated setMethods because addMethods doesn't support unknown types. Change when it does.
@@ -327,7 +326,7 @@ class OneAndOneMailConnectorBusinessTester extends Actor
     /**
      * @param \Codeception\Test\Unit $unit
      * @param int $id
-     * @param \PHPUnit\Framework\MockObject\MockObject $stateTransfer
+     * @param \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\ItemStateTransfer $stateTransfer
      * @param \Generated\Shared\Transfer\ShipmentTransfer $shipmentTransfer
      *
      * @return \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\ItemTransfer
@@ -335,7 +334,7 @@ class OneAndOneMailConnectorBusinessTester extends Actor
     protected function createItemTransferMock(
         Unit $unit,
         int $id,
-        MockObject $stateTransfer,
+        ItemStateTransfer $stateTransfer,
         ShipmentTransfer $shipmentTransfer
     ): ItemTransfer {
         $itemTransfer = $unit->getMockBuilder('Generated\Shared\Transfer\ItemTransfer')

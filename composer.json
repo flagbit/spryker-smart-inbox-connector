@@ -29,6 +29,7 @@
       "Testify\\Module\\": "vendor/spryker/testify/tests/_support/Module",
       "Config\\Module\\": "vendor/spryker/config/tests/_support/Module",
       "Transfer\\Module\\": "vendor/spryker/transfer/tests/_support/Module",
+      "SprykerTest\\Shared\\Testify\\": "vendor/spryker/testify/tests/SprykerTest/Shared/Testify/_support",
       "SprykerTest\\": "tests/SprykerTest/"
     }
   },

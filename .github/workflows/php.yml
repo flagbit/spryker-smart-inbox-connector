@@ -34,5 +34,9 @@ jobs:
         if: steps.composer-cache.outputs.cache-hit != 'true'
         run: composer update --prefer-dist --no-progress --no-suggest ${{ matrix.composer-lowest }}
 
+      - name: Prepare module config
+        if: ${{ matrix.composer-lowest != '' }}
+        run: mkdir config/Shared && echo "<?php" > config/Shared/default_store.php && echo "<?php return [1 => ['locales' => ['en' => 'en_US']]];" > config/Shared/stores.php
+
       - name: "Run test suite"
         run: "vendor/bin/codecept run"
