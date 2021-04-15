@@ -18,7 +18,7 @@ You have to generate some transfer objects
 
 The Method `\Spryker\Zed\Oms\OmsDependencyProvider::getOmsOrderMailExpanderPlugins` returns the plugins which should expand the
 order mail transfer. You have to extend this class and add a new object
-of `\OneAndOne\Zed\OneAndOneMailConnector\Communication\Plugin\OneAndOneMailConnectorOrderMailExpanderPlugin` to the return
+of `\Flagbit\Zed\SprykerSmartInboxConnector\Communication\Plugin\OneAndOneMailConnectorOrderMailExpanderPlugin` to the return
 array.
 
 ### Set configuration
@@ -33,7 +33,7 @@ $config[\Spryker\Shared\Kernel\KernelConstants::CORE_NAMESPACES] = [
     'SprykerEco',
     'Spryker',
     'SprykerSdk',
-    'OneAndOne',
+    'Flagbit',
 ];
 ```
 
@@ -42,7 +42,7 @@ $config[\Spryker\Shared\Kernel\KernelConstants::CORE_NAMESPACES] = [
 You have to add the shop-name to config
 
 ```php
-$config[\OneAndOne\Shared\OneAndOneMailConnector\OneAndOneMailConnectorConstants::SHOP_NAME] = 'your-shop-name';
+$config[\Flagbit\Shared\SprykerSmartInboxConnector\OneAndOneMailConnectorConstants::SHOP_NAME] = 'your-shop-name';
 ```
 
 #### Add status matrix
@@ -50,7 +50,7 @@ $config[\OneAndOne\Shared\OneAndOneMailConnector\OneAndOneMailConnectorConstants
 You have to add a list where every state of your orm points on one of those states [schema.org/OrderStatus](https://www.schema.org/OrderStatus)
 
 ```php
-$config[\OneAndOne\Shared\OneAndOneMailConnector\OneAndOneMailConnectorConstants::MATRIX_KEY] = [
+$config[\Flagbit\Shared\SprykerSmartInboxConnector\OneAndOneMailConnectorConstants::MATRIX_KEY] = [
     'new'                      => 'OrderProcessing',
     'payment pending'          => 'OrderProcessing',
     'invalid'                  => 'OrderCancelled',

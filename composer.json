@@ -21,7 +21,7 @@
   },
   "autoload": {
     "psr-4": {
-      "OneAndOne\\": "src/OneAndOne/"
+      "Flagbit\\": "src/Flagbit/"
     }
   },
   "autoload-dev": {
