@@ -1,7 +1,7 @@
-namespace: OneAndOneMailConnector
+namespace: SprykerSmartInboxConnector
 
 include:
-  - tests/OneAndOneTest/Zed/OneAndOneMailConnector
+  - tests/FlagbitTest/Zed/SprykerSmartInboxConnector
 
 paths:
   tests: tests

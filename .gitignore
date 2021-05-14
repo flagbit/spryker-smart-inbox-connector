@@ -2,3 +2,4 @@ composer.phar
 /vendor/
 .gitignore
 composer.lock
+tests/FlagbitTest/Zed/SprykerSmartInboxConnector/_support/_generated

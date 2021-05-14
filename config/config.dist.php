@@ -1,6 +1,6 @@
 <?php
 
-use OneAndOne\Shared\OneAndOneMailConnector\OneAndOneMailConnectorConstants;
+use Flagbit\Shared\SprykerSmartInboxConnector\OneAndOneMailConnectorConstants;
 use Spryker\Shared\Kernel\KernelConstants;
 
 $config[OneAndOneMailConnectorConstants::MATRIX_KEY] = [
@@ -29,4 +29,4 @@ $config[OneAndOneMailConnectorConstants::MATRIX_KEY] = [
 
 $config[OneAndOneMailConnectorConstants::SHOP_NAME] = 'shop.com';
 
-$config[KernelConstants::PROJECT_NAMESPACES] = array_merge($config[KernelConstants::PROJECT_NAMESPACES], ['OneAndOne']);
+$config[KernelConstants::PROJECT_NAMESPACES] = array_merge($config[KernelConstants::PROJECT_NAMESPACES], ['Flagbit']);
