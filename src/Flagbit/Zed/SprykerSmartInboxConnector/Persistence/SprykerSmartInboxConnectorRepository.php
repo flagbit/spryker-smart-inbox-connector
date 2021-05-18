@@ -6,9 +6,9 @@ use Propel\Runtime\ActiveQuery\Criteria;
 use Spryker\Zed\Kernel\Persistence\AbstractRepository;
 
 /**
- * @method \Flagbit\Zed\SprykerSmartInboxConnector\Persistence\OneAndOneMailConnectorPersistenceFactory getFactory()
+ * @method \Flagbit\Zed\SprykerSmartInboxConnector\Persistence\SprykerSmartInboxConnectorPersistenceFactory getFactory()
  */
-class OneAndOneMailConnectorRepository extends AbstractRepository implements OneAndOneMailConnectorRepositoryInterface
+class SprykerSmartInboxConnectorRepository extends AbstractRepository implements SprykerSmartInboxConnectorRepositoryInterface
 {
     /**
      * @param array $idOrderItems

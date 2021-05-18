@@ -5,7 +5,7 @@ namespace Flagbit\Zed\SprykerSmartInboxConnector;
 use Flagbit\Shared\SprykerSmartInboxConnector\OneAndOneMailConnectorConstants;
 use Spryker\Zed\Kernel\AbstractBundleConfig;
 
-class OneAndOneMailConnectorConfig extends AbstractBundleConfig
+class SprykerSmartInboxConnectorConfig extends AbstractBundleConfig
 {
     /**
      * @return string

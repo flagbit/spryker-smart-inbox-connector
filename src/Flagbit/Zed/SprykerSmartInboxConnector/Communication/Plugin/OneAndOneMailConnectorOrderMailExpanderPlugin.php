@@ -8,13 +8,13 @@ use Spryker\Zed\Kernel\Communication\AbstractPlugin;
 use Spryker\Zed\OmsExtension\Dependency\Plugin\OmsOrderMailExpanderPluginInterface;
 
 /**
- * @method \Flagbit\Zed\SprykerSmartInboxConnector\Business\OneAndOneMailConnectorFacade getFacade()
- * @method \Flagbit\Zed\SprykerSmartInboxConnector\OneAndOneMailConnectorConfig getConfig()
+ * @method \Flagbit\Zed\SprykerSmartInboxConnector\Business\SprykerSmartInboxConnectorFacade getFacade()
+ * @method \Flagbit\Zed\SprykerSmartInboxConnector\SprykerSmartInboxConnectorConfig getConfig()
  */
 class OneAndOneMailConnectorOrderMailExpanderPlugin extends AbstractPlugin implements OmsOrderMailExpanderPluginInterface
 {
     /**
-     * @method \Flagbit\Zed\SprykerSmartInboxConnector\Business\OneAndOneMailConnectorFacade getFacade()
+     * @method \Flagbit\Zed\SprykerSmartInboxConnector\Business\SprykerSmartInboxConnectorFacade getFacade()
      *
      * @param \Generated\Shared\Transfer\MailTransfer $mailTransfer
      * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer

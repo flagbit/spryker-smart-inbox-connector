@@ -5,7 +5,7 @@ namespace Flagbit\Zed\SprykerSmartInboxConnector\Business;
 use Generated\Shared\Transfer\MailTransfer;
 use Generated\Shared\Transfer\OrderTransfer;
 
-interface OneAndOneMailConnectorFacadeInterface
+interface SprykerSmartInboxConnectorFacadeInterface
 {
     /**
      * @param \Generated\Shared\Transfer\MailTransfer $mailTransfer

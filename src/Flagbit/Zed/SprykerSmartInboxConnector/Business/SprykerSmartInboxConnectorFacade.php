@@ -7,10 +7,10 @@ use Generated\Shared\Transfer\OrderTransfer;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
 
 /**
- * @method \Flagbit\Zed\SprykerSmartInboxConnector\Business\OneAndOneMailConnectorBusinessFactory getFactory()
- * @method \Flagbit\Zed\SprykerSmartInboxConnector\Persistence\OneAndOneMailConnectorRepositoryInterface getRepository()
+ * @method \Flagbit\Zed\SprykerSmartInboxConnector\Business\SprykerSmartInboxConnectorBusinessFactory getFactory()
+ * @method \Flagbit\Zed\SprykerSmartInboxConnector\Persistence\SprykerSmartInboxConnectorRepositoryInterface getRepository()
  */
-class OneAndOneMailConnectorFacade extends AbstractFacade implements OneAndOneMailConnectorFacadeInterface
+class SprykerSmartInboxConnectorFacade extends AbstractFacade implements SprykerSmartInboxConnectorFacadeInterface
 {
     /**
      * @param \Generated\Shared\Transfer\MailTransfer $mailTransfer
