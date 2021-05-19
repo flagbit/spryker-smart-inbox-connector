@@ -10,10 +10,10 @@ use Generated\Shared\Transfer\SchemaOrgTransfer;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 
 /**
- * @method \Flagbit\Zed\SprykerSmartInboxConnector\OneAndOneMailConnectorConfig getConfig()
- * @method \Flagbit\Zed\SprykerSmartInboxConnector\Persistence\OneAndOneMailConnectorRepositoryInterface getRepository()
+ * @method \Flagbit\Zed\SprykerSmartInboxConnector\SprykerSmartInboxConnectorConfig getConfig()
+ * @method \Flagbit\Zed\SprykerSmartInboxConnector\Persistence\SprykerSmartInboxConnectorRepositoryInterface getRepository()
  */
-class OneAndOneMailConnectorBusinessFactory extends AbstractBusinessFactory
+class SprykerSmartInboxConnectorBusinessFactory extends AbstractBusinessFactory
 {
     /**
      * @return \Flagbit\Zed\SprykerSmartInboxConnector\Business\SchemaOrgOrderMailExpander\SchemaOrgOrderMailExpanderInterface

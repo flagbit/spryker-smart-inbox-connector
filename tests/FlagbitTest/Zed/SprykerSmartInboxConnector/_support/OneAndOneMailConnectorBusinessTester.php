@@ -5,8 +5,8 @@ namespace FlagbitTest\Zed\SprykerSmartInboxConnector;
 use Codeception\Actor;
 use Codeception\Test\Unit;
 use Flagbit\Zed\SprykerSmartInboxConnector\Business\ParcelDelivery\ParcelDeliveryFactory;
-use Flagbit\Zed\SprykerSmartInboxConnector\OneAndOneMailConnectorConfig;
-use Flagbit\Zed\SprykerSmartInboxConnector\Persistence\OneAndOneMailConnectorRepository;
+use Flagbit\Zed\SprykerSmartInboxConnector\Persistence\SprykerSmartInboxConnectorRepository;
+use Flagbit\Zed\SprykerSmartInboxConnector\SprykerSmartInboxConnectorConfig;
 use Generated\Shared\Transfer\ItemStateTransfer;
 use Generated\Shared\Transfer\ItemTransfer;
 use Generated\Shared\Transfer\MailTemplateTransfer;
@@ -43,11 +43,11 @@ class OneAndOneMailConnectorBusinessTester extends Actor
      * @param array $statusMatrix
      * @param string $shopName
      *
-     * @return \Flagbit\Zed\SprykerSmartInboxConnector\OneAndOneMailConnectorConfig|\PHPUnit\Framework\MockObject\MockObject
+     * @return \Flagbit\Zed\SprykerSmartInboxConnector\SprykerSmartInboxConnectorConfig|\PHPUnit\Framework\MockObject\MockObject
      */
-    public function createConfigMock(Unit $unit, array $statusMatrix, string $shopName): OneAndOneMailConnectorConfig
+    public function createConfigMock(Unit $unit, array $statusMatrix, string $shopName): SprykerSmartInboxConnectorConfig
     {
-        $config = $unit->getMockBuilder(OneAndOneMailConnectorConfig::class)
+        $config = $unit->getMockBuilder(SprykerSmartInboxConnectorConfig::class)
             ->disableOriginalConstructor()
             ->getMock();
         $config->method('getShopName')
@@ -77,7 +77,7 @@ class OneAndOneMailConnectorBusinessTester extends Actor
         $mailTemplateTransfer->method('setIsHtml')
             ->with(true);
         $mailTemplateTransfer->method('setName')
-            ->with('sprykerSmartInboxConnector/mail/schema_org_order_connector.html.twig');
+            ->with('Flagbit:SprykerSmartInboxConnector/mail/schema_org_order_connector.html.twig');
 
         return $mailTemplateTransfer;
     }
@@ -213,14 +213,14 @@ class OneAndOneMailConnectorBusinessTester extends Actor
      * @param array $itemValues
      * @param \Orm\Zed\Sales\Persistence\SpySalesOrderItem $orderCollection
      *
-     * @return \Flagbit\Zed\SprykerSmartInboxConnector\Persistence\OneAndOneMailConnectorRepository|\PHPUnit\Framework\MockObject\MockObject
+     * @return \Flagbit\Zed\SprykerSmartInboxConnector\Persistence\SprykerSmartInboxConnectorRepository|\PHPUnit\Framework\MockObject\MockObject
      */
     public function createRepositoryMock(
         Unit $unit,
         array $itemValues,
         SpySalesOrderItem $orderCollection
-    ): OneAndOneMailConnectorRepository {
-        $repository = $unit->getMockBuilder(OneAndOneMailConnectorRepository::class)
+    ): SprykerSmartInboxConnectorRepository {
+        $repository = $unit->getMockBuilder(SprykerSmartInboxConnectorRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
         $repository->method('findSpySalesOrderItemByIdWithLastStateChange')

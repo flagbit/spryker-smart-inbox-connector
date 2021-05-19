@@ -3,8 +3,8 @@
 namespace Flagbit\Zed\SprykerSmartInboxConnector\Business\SchemaOrgOrderMailExpander;
 
 use Flagbit\Zed\SprykerSmartInboxConnector\Business\ParcelDelivery\ParcelDeliveryFactory;
-use Flagbit\Zed\SprykerSmartInboxConnector\OneAndOneMailConnectorConfig;
-use Flagbit\Zed\SprykerSmartInboxConnector\Persistence\OneAndOneMailConnectorRepositoryInterface;
+use Flagbit\Zed\SprykerSmartInboxConnector\Persistence\SprykerSmartInboxConnectorRepositoryInterface;
+use Flagbit\Zed\SprykerSmartInboxConnector\SprykerSmartInboxConnectorConfig;
 use Generated\Shared\Transfer\ItemTransfer;
 use Generated\Shared\Transfer\MailTemplateTransfer;
 use Generated\Shared\Transfer\MailTransfer;
@@ -15,12 +15,12 @@ use Generated\Shared\Transfer\SchemaOrgTransfer;
 class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
 {
     /**
-     * @var \Flagbit\Zed\SprykerSmartInboxConnector\OneAndOneMailConnectorConfig
+     * @var \Flagbit\Zed\SprykerSmartInboxConnector\SprykerSmartInboxConnectorConfig
      */
     private $config;
 
     /**
-     * @var \Flagbit\Zed\SprykerSmartInboxConnector\Persistence\OneAndOneMailConnectorRepositoryInterface
+     * @var \Flagbit\Zed\SprykerSmartInboxConnector\Persistence\SprykerSmartInboxConnectorRepositoryInterface
      */
     private $repository;
 
@@ -30,13 +30,13 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
     private $parcelDeliveryFactory;
 
     /**
-     * @param \Flagbit\Zed\SprykerSmartInboxConnector\OneAndOneMailConnectorConfig $config
-     * @param \Flagbit\Zed\SprykerSmartInboxConnector\Persistence\OneAndOneMailConnectorRepositoryInterface $repository
+     * @param \Flagbit\Zed\SprykerSmartInboxConnector\SprykerSmartInboxConnectorConfig $config
+     * @param \Flagbit\Zed\SprykerSmartInboxConnector\Persistence\SprykerSmartInboxConnectorRepositoryInterface $repository
      * @param \Flagbit\Zed\SprykerSmartInboxConnector\Business\ParcelDelivery\ParcelDeliveryFactory $parcelDeliveryFactory
      */
     public function __construct(
-        OneAndOneMailConnectorConfig $config,
-        OneAndOneMailConnectorRepositoryInterface $repository,
+        SprykerSmartInboxConnectorConfig $config,
+        SprykerSmartInboxConnectorRepositoryInterface $repository,
         ParcelDeliveryFactory $parcelDeliveryFactory
     ) {
         $this->config = $config;
@@ -105,7 +105,7 @@ class SchemaOrgOrderMailExpander implements SchemaOrgOrderMailExpanderInterface
     protected function fillMailTemplateInfos(MailTemplateTransfer $mailTemplateTransfer): MailTemplateTransfer
     {
         $mailTemplateTransfer->setIsHtml(true);
-        $mailTemplateTransfer->setName('sprykerSmartInboxConnector/mail/schema_org_order_connector.html.twig');
+        $mailTemplateTransfer->setName('Flagbit:SprykerSmartInboxConnector/mail/schema_org_order_connector.html.twig');
 
         return $mailTemplateTransfer;
     }

@@ -2,7 +2,7 @@
 
 namespace Flagbit\Zed\SprykerSmartInboxConnector\Persistence;
 
-interface OneAndOneMailConnectorRepositoryInterface
+interface SprykerSmartInboxConnectorRepositoryInterface
 {
     /**
      * @param array $idOrderItems

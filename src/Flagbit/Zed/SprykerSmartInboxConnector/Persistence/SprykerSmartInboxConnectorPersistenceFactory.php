@@ -6,10 +6,10 @@ use Orm\Zed\Sales\Persistence\SpySalesOrderItemQuery;
 use Spryker\Zed\Kernel\Persistence\AbstractPersistenceFactory;
 
 /**
- * @method \Flagbit\Zed\SprykerSmartInboxConnector\OneAndOneMailConnectorConfig getConfig()
- * @method \Flagbit\Zed\SprykerSmartInboxConnector\Persistence\OneAndOneMailConnectorRepositoryInterface getRepository()
+ * @method \Flagbit\Zed\SprykerSmartInboxConnector\SprykerSmartInboxConnectorConfig getConfig()
+ * @method \Flagbit\Zed\SprykerSmartInboxConnector\Persistence\SprykerSmartInboxConnectorRepositoryInterface getRepository()
  */
-class OneAndOneMailConnectorPersistenceFactory extends AbstractPersistenceFactory
+class SprykerSmartInboxConnectorPersistenceFactory extends AbstractPersistenceFactory
 {
     /**
      * @return \Orm\Zed\Sales\Persistence\SpySalesOrderItemQuery
