@@ -1,0 +1,19 @@
+name: Infrastructure
+on:
+  workflow_dispatch:
+
+jobs:
+
+  build:
+    runs-on: self-hosted
+    steps:
+      - uses: TimDaub/hetzner-cloud-deploy-server-action@v2
+        with:
+          server-name: "spryker"
+          server-image: "ubuntu-20.04"
+          server-type: "cx21"
+          ssh-key-name: "github"
+          hcloud-token: ${{ secrets.HCLOUD_TOKEN }}
+          startup-timeout: 40000
+          floating-ip-id: 499933
+          floating-ip-assignment-timeout: 30000
