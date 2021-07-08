@@ -17,3 +17,4 @@ jobs:
           startup-timeout: 40000
           floating-ip-id: 499933
           floating-ip-assignment-timeout: 30000
+          delete-server: false
