@@ -18,3 +18,7 @@ jobs:
           floating-ip-id: 499933
           floating-ip-assignment-timeout: 30000
           delete-server: false
+      - uses: webfactory/ssh-agent@v0.4.1
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - run: mkdir -p ~/.ssh/ && ssh-keyscan -H $SERVER_IPV4 >> ~/.ssh/known_hosts
